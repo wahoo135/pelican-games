@@ -1,0 +1,18 @@
+{
+  "product": {
+    "id": "emotion-theater-001",
+    "name": "情绪放映厅",
+    "price": "158.00",
+    "url": "https://pelican-games.com",
+    "description": "情绪表达聚会桌游 | 4-8人 | 30-60分钟",
+    "image": "https://pelican-games.com/images/emotion-theater.jpg",
+    "stock": 100,
+    "metadata": {
+      "brand": "鹈鹕游戏桌游工作室",
+      "category": "桌游",
+      "players": "4-8人",
+      "playTime": "30-60分钟"
+    }
+  },
+  "message": "产品数据已更新"
+}
