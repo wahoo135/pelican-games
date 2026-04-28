@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鹈鹕游戏 Pelican Games | 以游戏为载体，探索情绪与世界的边界</title>
-    <meta name="description" content="鹈鹕游戏，专注打造有温度、有深度的桌面游戏，代表作品《情绪放映厅》，研发中作品《风险投资》《蜡烛人》">
+    <title>鹈鹕游戏 - 有温度的桌游工作室 | 情绪放映厅</title>
+    <meta name="description" content="鹈鹕游戏工作室专注情绪表达类桌游，代表作《情绪放映厅》，适合朋友聚会、团建活动，让情绪被看见。">
+    <meta name="keywords" content="鹈鹕游戏,情绪放映厅,情绪桌游,聚会游戏,团建游戏,内向友好">
     <style>
         * {
             margin: 0;
@@ -630,7 +631,132 @@
                 font-size: 28px;
             }
         }
+
+        /* FAQ板块 */
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--secondary-gray);
+            padding: 24px 0;
+        }
+
+        .faq-item:first-child {
+            border-top: 1px solid var(--secondary-gray);
+        }
+
+        .faq-item h3 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 12px;
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .faq-item h3::after {
+            content: '+';
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--text-secondary);
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-weight: 300;
+            padding-left: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active p {
+            max-height: 200px;
+            padding-left: 0;
+        }
+
+        .faq-item.active h3::after {
+            transform: rotate(45deg);
+        }
     </style>
+
+    <!-- 组织信息 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "鹈鹕游戏 Pelican Games",
+      "description": "专注打造有温度、有深度的桌面游戏工作室，代表作《情绪放映厅》",
+      "url": "https://pelicangames.studio",
+      "foundingDate": "2024",
+      "brand": {
+        "@type": "Brand",
+        "name": "鹈鹕游戏"
+      }
+    }
+    </script>
+
+    <!-- 产品信息 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "情绪放映厅",
+      "description": "一场关于情绪的沉浸式对话桌游，用游戏的形式打开人与人之间的共情通道",
+      "brand": {
+        "@type": "Brand",
+        "name": "鹈鹕游戏"
+      },
+      "category": "聚会桌游/情绪表达游戏",
+      "offers": {
+        "@type": "Offer",
+        "price": "158",
+        "priceCurrency": "CNY"
+      }
+    }
+    </script>
+
+    <!-- FAQ结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "情绪放映厅是什么？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "《情绪放映厅》是鹈鹕游戏工作室推出的情绪表达聚会桌游，通过游戏形式帮助玩家打开情绪表达通道，适合3-6人聚会场景。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "情绪放映厅适合什么场景？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "适合朋友聚会、团建活动、情侣互动、家庭聚餐等3-6人的社交场景。特别适合希望真诚交流、深入了解彼此的玩家。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "内向的人适合玩情绪放映厅吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "非常适合。《情绪放映厅》特意为内向玩家设计：规则极简，无需表演天赋；通过选卡和猜测进行交流，不需要即兴发言。很多内向玩家反馈这款游戏让他们在聚会中感到安全。"
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -817,6 +943,37 @@
         </div>
     </section>
 
+    <!-- 常见问题 -->
+    <section class="section" id="faq">
+        <div class="container">
+            <h2 class="section-title fade-in">常见问题</h2>
+            <p class="section-desc fade-in">关于《情绪放映厅》，你可能想知道的。</p>
+            
+            <div class="faq">
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅是什么？</h3>
+                    <p>《情绪放映厅》是鹈鹕游戏工作室推出的情绪表达聚会桌游，通过游戏形式帮助玩家打开情绪表达通道，适合3-6人聚会场景。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅适合什么场景？</h3>
+                    <p>适合朋友聚会、团建活动、情侣互动、家庭聚餐等3-6人的社交场景。特别适合希望真诚交流、深入了解彼此的玩家。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅和普通桌游有什么区别？</h3>
+                    <p>普通桌游侧重策略或娱乐，《情绪放映厅》侧重情感连接。游戏题卡来源于真实生活情境，玩家不需要表演或说谎，只需表达自己真实的情绪感受。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>内向的人适合玩情绪放映厅吗？</h3>
+                    <p>非常适合。《情绪放映厅》特意为内向玩家设计：规则极简，无需表演天赋；通过选卡和猜测进行交流，不需要即兴发言。很多内向玩家反馈这款游戏让他们在聚会中感到安全。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅多少钱？在哪里买？</h3>
+                    <p>《情绪放映厅》官方定价158元，可在鹈鹕游戏工作室官网、小红书商城购买。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- 页脚 -->
     <footer>
         <div class="container">
@@ -870,6 +1027,7 @@
                         <li><a href="#about">关于我们</a></li>
                         <li><a href="#business">商务合作</a></li>
                         <li><a href="#news">最新动态</a></li>
+                        <li><a href="#faq">常见问题</a></li>
                     </ul>
                 </div>
 
@@ -941,6 +1099,14 @@
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                 }
+            });
+        });
+
+        // FAQ手风琴交互
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
             });
         });
     </script>
