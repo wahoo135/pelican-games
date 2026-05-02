@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鹈鹕游戏 - 有温度的桌游工作室 | 情绪放映厅</title>
+    <meta name="description" content="鹈鹕游戏工作室专注情绪表达类桌游，代表作《情绪放映厅》，适合朋友聚会、团建活动，让情绪被看见。">
+    <meta name="keywords" content="鹈鹕游戏,情绪放映厅,情绪桌游,聚会游戏,团建游戏,内向友好">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 核心配色体系 - 高级简约 */
+            --primary: #1E293B;
+            --secondary-warm: #F8F4EE;
+            --secondary-gray: #E2E8F0;
+            --light-bg: #F8FAFC;
+            --dark-bg: #0F172A;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --white: #FFFFFF;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', '思源黑体', 'Source Han Sans SC', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 通用容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            padding: 20px 0;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            font-weight: 300;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 400;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 移动端汉堡菜单 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 1px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        /* 首屏KV */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--light-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="%231E293B" fill-opacity="0.03" d="M44.8,-76.1C59.1,-69.9,72.1,-59.3,79.1,-45.5C86.1,-31.7,87.1,-15.8,84.9,-0.9C82.7,14,77.3,28,69.1,39.7C60.9,51.4,49.9,60.8,37.1,66.9C24.3,73,9.7,75.8,-4.7,82.3C-19.1,88.8,-33.5,99.9,-47.1,98.7C-60.7,97.5,-73.5,84,-81.9,68.4C-90.3,52.8,-94.3,35.2,-95.1,17.7C-95.9,0.2,-93.5,-17.2,-86.1,-31.9C-78.7,-46.6,-66.3,-58.5,-52.2,-64.7C-38.1,-70.9,-22.3,-71.4,-6.9,-69.7C8.6,-68,20.5,-64.1,34.8,-76.1Z" transform="translate(100 100)" /></svg>') no-repeat center;
+            background-size: contain;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 32px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%231E293B" d="M80,35 C85,35 90,40 90,45 C90,50 85,55 80,55 L40,55 C35,55 30,50 30,45 C30,40 35,35 40,35 L80,35 Z M25,50 C15,50 10,60 10,70 C10,80 20,90 30,90 L70,90 C80,90 90,80 90,70 C90,60 85,55 75,55 L25,50 Z M30,25 C35,15 45,10 55,10 C65,10 75,15 80,25 L30,25 Z" /></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--primary);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 400;
+            transition: var(--transition);
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(30, 41, 59, 0.15);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* 通用模块样式 */
+        .section {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 300;
+            color: var(--primary);
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background-color: var(--primary);
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 作品展示模块 */
+        .works-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .works-grid-secondary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .work-card {
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--white);
+            border: 1px solid var(--secondary-gray);
+            transition: var(--transition);
+        }
+
+        .work-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(30, 41, 59, 0.1);
+            border-color: transparent;
+        }
+
+        .work-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .work-card-secondary .work-img {
+            height: 280px;
+        }
+
+        .work-content {
+            padding: 24px;
+        }
+
+        .work-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 400;
+            background-color: var(--light-bg);
+            color: var(--text-secondary);
+        }
+
+        .tag.online {
+            background-color: var(--secondary-warm);
+            color: var(--primary);
+        }
+
+        .tag.wip {
+            background-color: var(--secondary-gray);
+            color: var(--primary);
+        }
+
+        .work-title {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .work-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        /* 关于我们模块 */
+        .about-section {
+            background-color: var(--light-bg);
+        }
+
+        .about-wrap {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 16px;
+            color: var(--text-primary);
+            line-height: 2;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-img {
+            width: 100%;
+            border-radius: 12px;
+            opacity: 0.8;
+            filter: grayscale(20%);
+        }
+
+        /* 商务合作模块 */
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .business-card {
+            padding: 32px 24px;
+            border-radius: 12px;
+            background-color: var(--white);
+            border: 1px solid var(--secondary-gray);
+            transition: var(--transition);
+        }
+
+        .business-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .business-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .business-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .business-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .business-contact {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--secondary-warm);
+            border-radius: 12px;
+        }
+
+        .business-contact h3 {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .business-contact .email {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        /* 最新动态模块 */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .news-item {
+            padding: 20px;
+            border-radius: 8px;
+            border-bottom: 1px solid var(--secondary-gray);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .news-item:hover {
+            background-color: var(--light-bg);
+        }
+
+        .news-date {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--primary);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-wrap {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo h2 {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+
+        .footer-logo p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .footer-links h3 {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .social-links a {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--white);
+        }
+
+        .social-links a svg {
+            width: 16px;
+            height: 16px;
+            fill: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover svg {
+            fill: var(--dark-bg);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 60px;
+                gap: 30px;
+                transition: var(--transition);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .works-grid,
+            .works-grid-secondary {
+                grid-template-columns: 1fr;
+            }
+
+            .about-wrap,
+            .business-grid,
+            .footer-wrap {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .section {
+                padding: 80px 0;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+
+        /* FAQ板块 */
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--secondary-gray);
+            padding: 24px 0;
+        }
+
+        .faq-item:first-child {
+            border-top: 1px solid var(--secondary-gray);
+        }
+
+        .faq-item h3 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 12px;
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .faq-item h3::after {
+            content: '+';
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--text-secondary);
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-weight: 300;
+            padding-left: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active p {
+            max-height: 200px;
+            padding-left: 0;
+        }
+
+        .faq-item.active h3::after {
+            transform: rotate(45deg);
+        }
+    </style>
+
+    <!-- 组织信息 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "鹈鹕游戏 Pelican Games",
+      "description": "专注打造有温度、有深度的桌面游戏工作室，代表作《情绪放映厅》",
+      "url": "https://pelicangames.studio",
+      "foundingDate": "2024",
+      "brand": {
+        "@type": "Brand",
+        "name": "鹈鹕游戏"
+      }
+    }
+    </script>
+
+    <!-- 产品信息 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "情绪放映厅",
+      "description": "一场关于情绪的沉浸式对话桌游，用游戏的形式打开人与人之间的共情通道",
+      "brand": {
+        "@type": "Brand",
+        "name": "鹈鹕游戏"
+      },
+      "category": "聚会桌游/情绪表达游戏",
+      "offers": {
+        "@type": "Offer",
+        "price": "158",
+        "priceCurrency": "CNY"
+      }
+    }
+    </script>
+
+    <!-- FAQ结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "情绪放映厅是什么？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "《情绪放映厅》是鹈鹕游戏工作室推出的情绪表达聚会桌游，通过游戏形式帮助玩家打开情绪表达通道，适合3-6人聚会场景。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "情绪放映厅适合什么场景？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "适合朋友聚会、团建活动、情侣互动、家庭聚餐等3-6人的社交场景。特别适合希望真诚交流、深入了解彼此的玩家。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "内向的人适合玩情绪放映厅吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "非常适合。《情绪放映厅》特意为内向玩家设计：规则极简，无需表演天赋；通过选卡和猜测进行交流，不需要即兴发言。很多内向玩家反馈这款游戏让他们在聚会中感到安全。"
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="container nav-container">
+            <div class="logo">鹈鹕游戏 <span>Pelican Games</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#works">作品</a></li>
+                <li><a href="#about">关于我们</a></li>
+                <li><a href="#business">商务合作</a></li>
+                <li><a href="#news">最新动态</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首屏KV -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-logo"></div>
+                <h1>鹈鹕游戏</h1>
+                <p>以游戏为载体，探索情绪与世界的边界</p>
+                <div class="btn-group">
+                    <a href="#works" class="btn btn-primary">查看我们的作品</a>
+                    <a href="#business" class="btn btn-secondary">商务合作</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品展示 -->
+    <section class="section" id="works">
+        <div class="container">
+            <h2 class="section-title fade-in">我们的作品</h2>
+            <p class="section-desc fade-in">从治愈人心的情绪对话，到酣畅淋漓的策略博弈，我们始终以玩家为核心，打磨每一处规则与细节。</p>
+            
+            <div class="works-grid">
+                <!-- 情绪放映厅 - C位主作品 -->
+                <div class="work-card fade-in">
+                    <img src="https://picsum.photos/id/1059/1200/800" alt="情绪放映厅" class="work-img">
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag online">已上线</span>
+                            <span class="tag">情绪治愈</span>
+                            <span class="tag">聚会社交</span>
+                            <span class="tag">桌面游戏</span>
+                        </div>
+                        <h3 class="work-title">《情绪放映厅》</h3>
+                        <p class="work-desc">一场关于情绪的沉浸式对话，用桌游的形式，打开人与人之间的共情通道。在这里，你可以放下防备，看见自己，也读懂他人。</p>
+                        <div class="btn-group" style="justify-content: flex-start;">
+                            <a href="#" class="btn btn-primary">了解详情</a>
+                            <a href="#" class="btn btn-secondary">购买渠道</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="works-grid-secondary">
+                <!-- 风险投资 - 研发中 -->
+                <div class="work-card work-card-secondary fade-in">
+                    <img src="https://picsum.photos/id/180/800/600" alt="风险投资" class="work-img">
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag wip">研发中</span>
+                            <span class="tag">策略博弈</span>
+                            <span class="tag">商业模拟</span>
+                        </div>
+                        <h3 class="work-title">《风险投资》</h3>
+                        <p class="work-desc">还原真实的资本博弈世界，在风险与收益之间，做出你的每一次决策。体验从初创到上市的完整商业旅程，在市场的浪潮中，成为最终的赢家。</p>
+                        <a href="#" class="btn btn-secondary">预约上线提醒</a>
+                    </div>
+                </div>
+
+                <!-- 蜡烛人 - 研发中 -->
+                <div class="work-card work-card-secondary fade-in">
+                    <img src="https://picsum.photos/id/142/800/600" alt="蜡烛人" class="work-img">
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class="tag wip">研发中</span>
+                            <span class="tag">治愈叙事</span>
+                            <span class="tag">轻度解谜</span>
+                        </div>
+                        <h3 class="work-title">《蜡烛人》</h3>
+                        <p class="work-desc">以微光为引，在黑暗中寻找温暖与勇气。一场关于陪伴与成长的治愈之旅，哪怕只有微弱的光芒，也能照亮前行的路，温暖身边的人。</p>
+                        <a href="#" class="btn btn-secondary">预约上线提醒</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">关于鹈鹕</h2>
+            <div class="about-wrap">
+                <div class="about-text fade-in">
+                    <p>鹈鹕游戏，是一家专注于打造有温度、有深度的桌面游戏工作室。</p>
+                    <p>我们相信，游戏不止是娱乐，更是情绪的载体、故事的容器、人与人连接的桥梁。从治愈人心的情绪对话，到酣畅淋漓的策略博弈，我们始终以玩家为核心，打磨每一处规则与细节，创造能真正抵达人心的游戏体验。</p>
+                    <p>我们是一群热爱游戏的创作者，愿以规则为舟，载着故事与情绪，与每一位玩家同行。</p>
+                </div>
+                <div class="fade-in">
+                    <img src="https://picsum.photos/id/1002/800/600" alt="鹈鹕游戏工作室" class="about-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 商务合作 -->
+    <section class="section" id="business">
+        <div class="container">
+            <h2 class="section-title fade-in">商务合作</h2>
+            <p class="section-desc fade-in">我们开放全品类、全渠道的合作，期待与不同领域的伙伴，碰撞出更多可能性。</p>
+            
+            <div class="business-grid">
+                <!-- 发行合作 -->
+                <div class="business-card fade-in">
+                    <svg class="business-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 7L16 7" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 11L16 11" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 15L12 15" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="business-title">发行合作</h3>
+                    <p class="business-desc">我们开放全系列作品的全球各地区发行代理权，欢迎海内外发行商洽谈合作。</p>
+                </div>
+
+                <!-- 渠道合作 -->
+                <div class="business-card fade-in">
+                    <svg class="business-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 3L21 3V21H3L3 3Z" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 9L21 9" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 21L9 9" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="business-title">渠道合作</h3>
+                    <p class="business-desc">欢迎线上线下桌游渠道、书店、文创空间、教育机构洽谈上架与联名合作。</p>
+                </div>
+
+                <!-- 跨界联名 -->
+                <div class="business-card fade-in">
+                    <svg class="business-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="#1E293B" stroke-width="2"/>
+                        <path d="M12 8L12 12L16 14" stroke="#1E293B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3 class="business-title">跨界联名</h3>
+                    <p class="business-desc">开放IP联名、企业定制、团建活动等跨界合作，期待与不同领域的品牌碰撞火花。</p>
+                </div>
+            </div>
+
+            <div class="business-contact fade-in">
+                <h3>合作洽谈</h3>
+                <div class="email">business@pelicangames.com</div>
+                <a href="mailto:business@pelicangames.com" class="btn btn-primary">发送合作意向</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新动态 -->
+    <section class="section" id="news">
+        <div class="container">
+            <h2 class="section-title fade-in">最新动态</h2>
+            <p class="section-desc fade-in">关注我们的参展信息与作品动态，不错过每一次相遇。</p>
+            
+            <div class="news-list">
+                <div class="news-item fade-in">
+                    <div class="news-date">2026.08</div>
+                    <div class="news-title">鹈鹕游戏携《情绪放映厅》参展DICE CON 2026 北京国际桌游展</div>
+                </div>
+                <div class="news-item fade-in">
+                    <div class="news-date">2026.01</div>
+                    <div class="news-title">《情绪放映厅》繁体版正式登陆台湾地区，全渠道同步上线</div>
+                </div>
+                <div class="news-item fade-in">
+                    <div class="news-date">2026.XX</div>
+                    <div class="news-title">新作《风险投资》开启首轮玩法测试，招募核心玩家参与共创</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="section" id="faq">
+        <div class="container">
+            <h2 class="section-title fade-in">常见问题</h2>
+            <p class="section-desc fade-in">关于《情绪放映厅》，你可能想知道的。</p>
+            
+            <div class="faq">
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅是什么？</h3>
+                    <p>《情绪放映厅》是鹈鹕游戏工作室推出的情绪表达聚会桌游，通过游戏形式帮助玩家打开情绪表达通道，适合3-6人聚会场景。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅适合什么场景？</h3>
+                    <p>适合朋友聚会、团建活动、情侣互动、家庭聚餐等3-6人的社交场景。特别适合希望真诚交流、深入了解彼此的玩家。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅和普通桌游有什么区别？</h3>
+                    <p>普通桌游侧重策略或娱乐，《情绪放映厅》侧重情感连接。游戏题卡来源于真实生活情境，玩家不需要表演或说谎，只需表达自己真实的情绪感受。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>内向的人适合玩情绪放映厅吗？</h3>
+                    <p>非常适合。《情绪放映厅》特意为内向玩家设计：规则极简，无需表演天赋；通过选卡和猜测进行交流，不需要即兴发言。很多内向玩家反馈这款游戏让他们在聚会中感到安全。</p>
+                </div>
+                <div class="faq-item fade-in">
+                    <h3>情绪放映厅多少钱？在哪里买？</h3>
+                    <p>《情绪放映厅》官方定价158元，可在鹈鹕游戏工作室官网、小红书商城购买。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-wrap">
+                <div class="footer-logo">
+                    <h2>鹈鹕游戏 Pelican Games</h2>
+                    <p>以游戏为载体，探索情绪与世界的边界</p>
+                    <div class="social-links">
+                        <!-- 微信 -->
+                        <a href="#">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.5 10.5C8.5 11.0523 8.05228 11.5 7.5 11.5C6.94772 11.5 6.5 11.0523 6.5 10.5C6.5 9.94772 6.94772 9.5 7.5 9.5C8.05228 9.5 8.5 9.94772 8.5 10.5Z"/>
+                                <path d="M17.5 10.5C17.5 11.0523 17.0523 11.5 16.5 11.5C15.9477 11.5 15.5 11.0523 15.5 10.5C15.5 9.94772 15.9477 9.5 16.5 9.5C17.0523 9.5 17.5 9.94772 17.5 10.5Z"/>
+                                <path d="M11.0954 19C16.0154 19 20 15.9706 20 12.1765C20 8.38235 16.0154 5.35294 11.0954 5.35294C6.17538 5.35294 2.1908 8.38235 2.1908 12.1765C2.1908 14.5588 3.59231 16.6471 5.79692 17.9412L5 19L7.39462 17.7059C8.49538 18.3824 9.79538 18.7647 11.0954 19Z"/>
+                            </svg>
+                        </a>
+                        <!-- 微博 -->
+                        <a href="#">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.59998 17.801C5.49998 18.101 2.09998 16.401 2.09998 14.301C2.09998 12.001 5.59998 10.201 10.1 10.301C14.6 10.401 18 12.301 18 14.501C18 16.701 14.5 18.101 9.59998 17.801Z"/>
+                                <path d="M15.5 8.5C16.8 8.8 17.8 7.8 17.7 6.5C17.6 5.2 16.4 4.3 15.1 4.5C13.8 4.7 13 5.9 13.1 7.2C13.2 8.4 14.2 8.2 15.5 8.5Z"/>
+                                <path d="M19.5 10.5C20.8 10.8 21.8 9.8 21.7 8.5C21.6 7.2 20.4 6.3 19.1 6.5C17.8 6.7 17 7.9 17.1 9.2C17.2 10.4 18.2 10.2 19.5 10.5Z"/>
+                                <path d="M10.5 14C9.5 14 8.5 13.5 8.5 12.5C8.5 11.5 9.5 11 10.5 11C11.5 11 12.5 11.5 12.5 12.5C12.5 13.5 11.5 14 10.5 14Z"/>
+                                <path d="M8.5 15.5C8.5 15.5 13.5 15.5 13.5 13.5"/>
+                            </svg>
+                        </a>
+                        <!-- B站 -->
+                        <a href="#">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.8125 4.5H6.1875C4.97812 4.5 4 5.47812 4 6.6875V18.3125C4 19.5219 4.97812 20.5 6.1875 20.5H17.8125C19.0219 20.5 20 19.5219 20 18.3125V6.6875C20 5.47812 19.0219 4.5 17.8125 4.5Z"/>
+                                <path d="M9.5 7.5L8 9H16L14.5 7.5"/>
+                                <path d="M8 12V16"/>
+                                <path d="M16 12V16"/>
+                            </svg>
+                        </a>
+                        <!-- 小红书 -->
+                        <a href="#">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
+                                <path d="M8 8H16V16H8V8Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h3>导航</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#works">作品</a></li>
+                        <li><a href="#about">关于我们</a></li>
+                        <li><a href="#business">商务合作</a></li>
+                        <li><a href="#news">最新动态</a></li>
+                        <li><a href="#faq">常见问题</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li><a href="mailto:business@pelicangames.com">商务邮箱</a></li>
+                        <li><a href="#">玩家社群</a></li>
+                        <li><a href="#">媒体合作</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                © 2026 鹈鹕游戏 Pelican Games. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端汉堡菜单
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.padding = '16px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(30, 41, 59, 0.08)';
+            } else {
+                navbar.style.padding = '20px 0';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // 滚动渐显动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeInOnScroll = () => {
+            const triggerBottom = window.innerHeight * 0.85;
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < triggerBottom) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // 关闭移动端菜单
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // FAQ手风琴交互
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
