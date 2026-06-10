@@ -1,10 +1,7 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-  storage: {
-    kind: 'github',
-    repo: { owner: 'wahoo135', name: 'pelican-games' },
-  },
+  storage: { kind: 'local' },
   ui: {
     brand: {
       name: '鹈鹕游戏',
