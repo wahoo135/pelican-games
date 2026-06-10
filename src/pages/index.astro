@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const products = (await getCollection('products')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+const newsItems = (await getCollection('news')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+const faqItems = (await getCollection('faq')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+const configEntries = await getCollection('siteConfig');
+const cfg = configEntries[0]?.data;
+
+const heroTitle = cfg?.heroTitle || '鹈鹕游戏';
+const heroSubtitle = cfg?.heroSubtitle || '以游戏为载体，探索情绪与世界的边界';
+const heroBtnPrimary = { text: cfg?.heroBtnPrimaryText || '查看我们的作品', link: cfg?.heroBtnPrimaryLink || '#works' };
+const heroBtnSecondary = { text: cfg?.heroBtnSecondaryText || '商务合作', link: cfg?.heroBtnSecondaryLink || '#business' };
+
+const mainProduct = products.find(p => p.data.status === 'online');
+const otherProducts = products.filter(p => p.data.status !== 'online');
+---
+
+<BaseLayout title="鹈鹕游戏 - 有温度的桌游工作室 | 情绪放映厅">
+    <!-- 首屏KV -->
+    <section class="hero" id="home" style={cfg?.heroImage ? `background-image: url('${cfg.heroImage}'); background-size: cover; background-position: center;` : ''}>
+        <div class="container">
+            <div class="hero-content">
+                <h1>{heroTitle}</h1>
+                <p>{heroSubtitle}</p>
+                <div class="btn-group">
+                    <a href={heroBtnPrimary.link} class="btn btn-primary">{heroBtnPrimary.text}</a>
+                    <a href={heroBtnSecondary.link} class="btn btn-secondary">{heroBtnSecondary.text}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品展示 -->
+    <section class="section" id="works">
+        <div class="container">
+            <h2 class="section-title fade-in">我们的作品</h2>
+            <p class="section-desc fade-in">从治愈人心的情绪对话，到酣畅淋漓的策略博弈，我们始终以玩家为核心，打磨每一处规则与细节。</p>
+
+            {mainProduct && (
+            <div class="works-grid">
+                <div class="work-card fade-in">
+                    <img src={mainProduct.data.image} alt={mainProduct.data.name} class="work-img" />
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class={`tag ${mainProduct.data.status}`}>{mainProduct.data.status === 'online' ? '已上线' : mainProduct.data.status === 'wip' ? '研发中' : '规划中'}</span>
+                            {mainProduct.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                        </div>
+                        <h3 class="work-title">《{mainProduct.data.name}》</h3>
+                        <p class="work-desc">{mainProduct.data.tagline}</p>
+                        <div class="btn-group" style="justify-content: flex-start;">
+                            <a href={`/products/${mainProduct.id}`} class="btn btn-primary">了解详情</a>
+                            {mainProduct.data.buyLink && <a href={mainProduct.data.buyLink} class="btn btn-secondary">{mainProduct.data.buyLinkText || '购买渠道'}</a>}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            )}
+
+            {otherProducts.length > 0 && (
+            <div class="works-grid-secondary">
+                {otherProducts.map(product => (
+                <div class="work-card work-card-secondary fade-in">
+                    <img src={product.data.image} alt={product.data.name} class="work-img" />
+                    <div class="work-content">
+                        <div class="work-tags">
+                            <span class={`tag ${product.data.status}`}>{product.data.status === 'wip' ? '研发中' : '规划中'}</span>
+                            {product.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                        </div>
+                        <h3 class="work-title">《{product.data.name}》</h3>
+                        <p class="work-desc">{product.data.tagline}</p>
+                        <a href={`/products/${product.id}`} class="btn btn-secondary">了解详情</a>
+                    </div>
+                </div>
+                ))}
+            </div>
+            )}
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">关于鹈鹕</h2>
+            <div class="about-wrap">
+                <div class="about-text fade-in">
+                    {cfg?.aboutText?.split('\n\n').map(para => <p>{para}</p>)}
+                </div>
+                {cfg?.aboutImage && (
+                <div class="fade-in">
+                    <img src={cfg.aboutImage} alt="鹈鹕游戏工作室" class="about-img" />
+                </div>
+                )}
+            </div>
+        </div>
+    </section>
+
+    <!-- 商务合作 -->
+    <section class="section" id="business">
+        <div class="container">
+            <h2 class="section-title fade-in">商务合作</h2>
+            <p class="section-desc fade-in">我们开放全品类、全渠道的合作，期待与不同领域的伙伴，碰撞出更多可能性。</p>
+
+            <div class="business-grid">
+                <div class="business-card fade-in">
+                    <h3 class="business-title">发行合作</h3>
+                    <p class="business-desc">我们开放全系列作品的全球各地区发行代理权，欢迎海内外发行商洽谈合作。</p>
+                </div>
+                <div class="business-card fade-in">
+                    <h3 class="business-title">渠道合作</h3>
+                    <p class="business-desc">欢迎线上线下桌游渠道、书店、文创空间、教育机构洽谈上架与联名合作。</p>
+                </div>
+                <div class="business-card fade-in">
+                    <h3 class="business-title">跨界联名</h3>
+                    <p class="business-desc">开放IP联名、企业定制、团建活动等跨界合作，期待与不同领域的品牌碰撞火花。</p>
+                </div>
+            </div>
+
+            <div class="business-contact fade-in">
+                <h3>合作洽谈</h3>
+                <div class="email">{cfg?.businessEmail || '747127623@qq.com'}</div>
+                {cfg?.businessPhone && <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">电话：{cfg.businessPhone}</div>}
+                <a href={`mailto:${cfg?.businessEmail || '747127623@qq.com'}`} class="btn btn-primary">发送合作意向</a>
+                {cfg?.wechatQR && (
+                <div style="margin-top: 24px;">
+                    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">微信扫码添加</p>
+                    <img src={cfg.wechatQR} alt="微信二维码" style="width: 120px; border-radius: 8px;" />
+                </div>
+                )}
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新动态 -->
+    <section class="section" id="news">
+        <div class="container">
+            <h2 class="section-title fade-in">最新动态</h2>
+            <p class="section-desc fade-in">关注我们的参展信息与作品动态，不错过每一次相遇。</p>
+            <div class="news-list">
+                {newsItems.map(item => (
+                <div class="news-item fade-in">
+                    <div class="news-date">{item.data.date}</div>
+                    <div class="news-title">
+                        {item.data.link ? <a href={item.data.link} style="color: inherit; text-decoration: none;">{item.data.detail || item.data.title}</a> : (item.data.detail || item.data.title)}
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="section" id="faq">
+        <div class="container">
+            <h2 class="section-title fade-in">常见问题</h2>
+            <p class="section-desc fade-in">关于《情绪放映厅》，你可能想知道的。</p>
+            <div class="faq">
+                {faqItems.map(item => (
+                <div class="faq-item fade-in">
+                    <h3>{item.data.question}</h3>
+                    <p>{item.data.answer}</p>
+                </div>
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

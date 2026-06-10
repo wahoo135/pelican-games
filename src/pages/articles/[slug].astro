@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map(article => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const categoryLabels: Record<string, string> = {
+  design: '设计手记',
+  news: '工作室动态',
+  playtest: '测玩报告',
+  behind: '幕后故事',
+  industry: '行业观察',
+};
+---
+
+<BaseLayout title={`${article.data.title} - 鹈鹕游戏`} description={article.data.excerpt}>
+    <div class="container article-detail">
+        <div style="margin-bottom: 8px; font-size: 12px; color: var(--text-secondary); letter-spacing: 0.1em;">
+            {categoryLabels[article.data.category] || article.data.category}
+        </div>
+        <h1>{article.data.title}</h1>
+        <div class="article-meta">{article.data.publishedAt}</div>
+        {article.data.cover && <img src={article.data.cover} alt={article.data.title} style="width:100%; border-radius:12px; margin-bottom:32px;" />}
+        <div class="prose">
+            <Content />
+        </div>
+        <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--secondary-gray);">
+            <a href="/articles" class="btn btn-secondary">← 返回文章列表</a>
+        </div>
+    </div>
+</BaseLayout>

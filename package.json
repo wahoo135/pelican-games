@@ -1,0 +1,17 @@
+{
+  "name": "pelicangames-studio",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.7.10",
+    "@keystatic/astro": "^5.0.3",
+    "@keystatic/core": "^0.5.47"
+  }
+}

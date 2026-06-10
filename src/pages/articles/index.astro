@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles'))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+const categoryLabels: Record<string, string> = {
+  design: '设计手记',
+  news: '工作室动态',
+  playtest: '测玩报告',
+  behind: '幕后故事',
+  industry: '行业观察',
+};
+---
+
+<BaseLayout title="文章 - 鹈鹕游戏" description="鹈鹕游戏工作室的设计手记、幕后故事与行业观察">
+    <div class="container" style="padding-top: 120px;">
+        <h1 class="section-title" style="margin-bottom: 16px;">文章</h1>
+        <p class="section-desc" style="margin-bottom: 48px;">设计手记、幕后故事与行业观察</p>
+
+        {articles.length === 0 && (
+        <div style="text-align: center; padding: 80px 0; color: var(--text-secondary);">
+            <p style="font-size: 18px; margin-bottom: 16px;">暂无文章</p>
+            <p style="font-size: 14px;">我们正在撰写中，敬请期待。</p>
+        </div>
+        )}
+
+        <div class="article-grid" style="margin-bottom: 80px;">
+            {articles.map(article => (
+            <a href={`/articles/${article.id}`} class="article-card">
+                {article.data.cover && <img src={article.data.cover} alt={article.data.title} class="article-cover" />}
+                <div class="article-body">
+                    <div class="article-category">{categoryLabels[article.data.category] || article.data.category}</div>
+                    <h2 class="article-title">{article.data.title}</h2>
+                    {article.data.excerpt && <p class="article-excerpt">{article.data.excerpt}</p>}
+                    <div class="article-date">{article.data.publishedAt}</div>
+                </div>
+            </a>
+            ))}
+        </div>
+    </div>
+</BaseLayout>
