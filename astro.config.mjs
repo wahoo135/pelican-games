@@ -1,12 +1,12 @@
 import { defineConfig } from 'astro/config';
 import keystatic from '@keystatic/astro';
-
-const isBuild = process.env.NODE_ENV === 'production';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: 'https://pelicangames.studio',
-  integrations: [...(isBuild ? [] : [keystatic()])],
-  output: 'static',
+  integrations: [keystatic()],
+  output: 'server',
+  adapter: vercel(),
   build: {
     assets: 'assets'
   }
