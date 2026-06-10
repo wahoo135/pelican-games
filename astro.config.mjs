@@ -4,7 +4,7 @@ import keystatic from '@keystatic/astro';
 export default defineConfig({
   site: 'https://pelicangames.studio',
   integrations: [keystatic()],
-  output: 'hybrid',
+  output: 'static',
   build: {
     assets: 'assets'
   }
