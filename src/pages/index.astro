@@ -155,14 +155,17 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
             <h2 class="section-title fade-in">最新动态</h2>
             <p class="section-desc fade-in">我们的最新进展与活动信息。</p>
             <div class="news-list">
-                {newsItems.map(item => (
+                {newsItems.length > 0 ? newsItems.map(item => (
                 <div class="news-item fade-in">
                     <div class="news-date">{item.data.date}</div>
                     <div class="news-title">
                         {item.data.link ? <a href={item.data.link} style="color: inherit; text-decoration: none;">{item.data.detail || item.data.title}</a> : (item.data.detail || item.data.title)}
                     </div>
                 </div>
-                ))}
+                ))
+) : (
+<p style="text-align: center; color: var(--text-secondary); padding: 40px 0;">暂无最新动态，敬请期待。</p>
+)}
             </div>
         </div>
     </section>
