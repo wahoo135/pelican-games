@@ -9,10 +9,10 @@ const faqItems = (await getCollection('faq')).sort((a, b) => (a.data.order ?? 0)
 const configEntries = await getCollection('siteConfig');
 const cfg = configEntries[0]?.data;
 
-const heroTitle = cfg?.heroTitle || '鹈鹕游戏';
-const heroSubtitle = cfg?.heroSubtitle || '以游戏为载体，探索情绪与世界的边界';
-const heroBtnPrimary = { text: cfg?.heroBtnPrimaryText || '查看我们的作品', link: cfg?.heroBtnPrimaryLink || '#works' };
-const heroBtnSecondary = { text: cfg?.heroBtnSecondaryText || '商务合作', link: cfg?.heroBtnSecondaryLink || '#business' };
+const heroTitle = cfg?.heroTitle || '让世界更好玩。';
+const heroSubtitle = cfg?.heroSubtitle || '我们从真实世界中寻找灵感，创造值得经历的体验。';
+const heroBtnPrimary = { text: cfg?.heroBtnPrimaryText || '探索游戏', link: cfg?.heroBtnPrimaryLink || '#works' };
+const heroBtnSecondary = { text: cfg?.heroBtnSecondaryText || '认识我们', link: cfg?.heroBtnSecondaryLink || '#business' };
 
 const mainProduct = products.find(p => p.data.status === 'online');
 const otherProducts = products.filter(p => p.data.status !== 'online');
@@ -37,7 +37,7 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
     <section class="section" id="works">
         <div class="container">
             <h2 class="section-title fade-in">我们的作品</h2>
-            <p class="section-desc fade-in">从治愈人心的情绪对话，到酣畅淋漓的策略博弈，我们始终以玩家为核心，打磨每一处规则与细节。</p>
+            <p class="section-desc fade-in">我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制。</p>
 
             {mainProduct && (
             <div class="works-grid">
@@ -101,20 +101,20 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
     <section class="section" id="business">
         <div class="container">
             <h2 class="section-title fade-in">商务合作</h2>
-            <p class="section-desc fade-in">我们开放全品类、全渠道的合作，期待与不同领域的伙伴，碰撞出更多可能性。</p>
+            <p class="section-desc fade-in">从桌游到文创，从IP授权到沉浸式体验，我们期待与不同领域的伙伴碰撞出更多可能。</p>
 
             <div class="business-grid">
                 <div class="business-card fade-in">
-                    <h3 class="business-title">发行合作</h3>
-                    <p class="business-desc">我们开放全系列作品的全球各地区发行代理权，欢迎海内外发行商洽谈合作。</p>
+                    <h3 class="business-title">桌游设计</h3>
+                    <p class="business-desc">原创桌面游戏设计与开发，从概念到成品的全流程创作。</p>
                 </div>
                 <div class="business-card fade-in">
-                    <h3 class="business-title">渠道合作</h3>
-                    <p class="business-desc">欢迎线上线下桌游渠道、书店、文创空间、教育机构洽谈上架与联名合作。</p>
+                    <h3 class="business-title">文创产品设计/发行</h3>
+                    <p class="business-desc">基于游戏IP的文创衍生品设计、开发与发行合作。</p>
                 </div>
                 <div class="business-card fade-in">
-                    <h3 class="business-title">跨界联名</h3>
-                    <p class="business-desc">开放IP联名、企业定制、团建活动等跨界合作，期待与不同领域的品牌碰撞火花。</p>
+                    <h3 class="business-title">游戏IP授权</h3>
+                    <p class="business-desc">开放游戏IP授权，欢迎品牌联名、跨界合作。</p>
                 </div>
             </div>
 
@@ -137,7 +137,7 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
     <section class="section" id="news">
         <div class="container">
             <h2 class="section-title fade-in">最新动态</h2>
-            <p class="section-desc fade-in">关注我们的参展信息与作品动态，不错过每一次相遇。</p>
+            <p class="section-desc fade-in">我们的最新进展与活动信息。</p>
             <div class="news-list">
                 {newsItems.map(item => (
                 <div class="news-item fade-in">
@@ -155,7 +155,7 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
     <section class="section" id="faq">
         <div class="container">
             <h2 class="section-title fade-in">常见问题</h2>
-            <p class="section-desc fade-in">关于《情绪放映厅》，你可能想知道的。</p>
+            <p class="section-desc fade-in">关于我们的游戏，你可能想知道的。</p>
             <div class="faq">
                 {faqItems.map(item => (
                 <div class="faq-item fade-in">
