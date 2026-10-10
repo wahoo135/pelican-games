@@ -12,6 +12,8 @@ players: 3-6人
 duration: 45分钟
 
 order: 0
+buyLink: "#"
+detailLink: "#"
 ---
 
 面对同一件事，每个人的感受可能完全不同。
