@@ -310,4 +310,43 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
         .section-title { font-size: 28px; }
         .article-grid { grid-template-columns: 1fr; }
     }
+/* ===== 设计理念板块 ===== */
+.philosophy-section {
+  background: var(--card);
+  text-align: center;
+}
+.philosophy-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.philosophy-content p {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg);
+  margin-bottom: 16px;
+}
+.philosophy-lead {
+  font-size: 20px !important;
+  font-weight: 600;
+  color: var(--accent) !important;
+  margin-bottom: 24px !important;
+}
+.philosophy-closing {
+  font-size: 18px !important;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--accent) !important;
+  margin-top: 24px !important;
+  margin-bottom: 0 !important;
+}
+
+/* ===== 4卡片商务网格适配 ===== */
+.business-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+@media (max-width: 640px) {
+  .business-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 </style>
