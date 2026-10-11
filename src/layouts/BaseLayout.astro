@@ -4,6 +4,7 @@ export interface Props {
   description?: string;
 }
 
+const canonical = new URL(Astro.url.pathname, Astro.site);
 const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游，代表作《情绪放映厅》' } = Astro.props;
 ---
 
@@ -14,6 +15,7 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <meta name="keywords" content="鹈鹕游戏,情绪放映厅,情绪桌游,聚会游戏,团建游戏,内向友好" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,12 +36,13 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     <nav id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">鹈鹕游戏 <span>Pelican Games</span></a>
-            <button class="hamburger" id="hamburger" aria-label="菜单">
+            <button class="hamburger" id="hamburger" aria-label="菜单" aria-expanded="false" aria-controls="navLinks">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="/">首页</a></li>
                 <li><a href="/#works">作品</a></li>
+                    <li><a href="/#development">研发中</a></li>
                 <li><a href="/#about">关于我们</a></li>
                 <li><a href="/articles">文章</a></li>
                 <li><a href="/#business">商务合作</a></li>
@@ -51,7 +54,7 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     <slot />
 
     <!-- 页脚 -->
-    <footer>
+    <footer id="site-footer">
         <div class="footer-container">
             <div class="footer-brand">
                 <h2>鹈鹕游戏 <span>Pelican Games</span></h2>
@@ -62,23 +65,25 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
                 <ul>
                     <li><a href="/">首页</a></li>
                     <li><a href="/#works">作品</a></li>
+                    <li><a href="/#development">研发中</a></li>
                     <li><a href="/articles">文章</a></li>
                     <li><a href="/#business">商务合作</a></li>
-                    <li><a href="/#faq">常见问题</a></li>
                 </ul>
             </div>
             <div class="footer-links">
                 <h3>联系我们</h3>
                 <ul>
-                    <li><a href="mailto:747127623@qq.com">商务邮箱</a></li>
-                    <li><a href="/#business">合作洽谈</a></li>
+                    <li><a href="mailto:747127623@qq.com">商务邮箱：747127623@qq.com</a></li>
+                    <li><a href="/#business">合作洽谈：查看合作方向</a></li>
                 </ul>
             </div>
 <div class="footer-links">
 <h3>关注我们</h3>
 <ul>
-<li><a href="https://www.xiaohongshu.com" target="_blank" rel="noopener">小红书</a></li>
-<li>微信公众号：鹈鹕游戏工作室</li>
+<li><a href="https://xhslink.cn/o/283FtkcAhhj" target="_blank" rel="noopener">小红书官号：95020198510</a></li>
+<li><a href="https://xhslink.cn/o/283FtkcAhhj" target="_blank" rel="noopener"><img class="footer-qr" src="/images/xiaohongshu-official-qr.jpg" alt="鹈鹕游戏小红书官号二维码，账号95020198510" width="187" height="185" loading="lazy" /></a><span class="qr-caption">扫码关注小红书</span></li>
+<li>微信公众号：鹈鹕游戏</li>
+<li><img class="footer-qr" src="/images/wechat-official-qr.jpg" alt="鹈鹕游戏微信公众号二维码" width="430" height="430" loading="lazy" /><span class="qr-caption">微信扫码关注公众号</span></li>
 <li>微信号：CartonStudio</li>
 </ul>
 </div>
@@ -94,9 +99,22 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
         // 移动端菜单
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
-        hamburger?.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks?.classList.toggle('active');
+        const mobileMenu = window.matchMedia('(max-width: 992px)');
+        const setMenu = (open: boolean) => {
+            hamburger?.classList.toggle('active', open);
+            hamburger?.setAttribute('aria-expanded', String(open));
+            navLinks?.classList.toggle('active', open);
+            if (navLinks) navLinks.inert = mobileMenu.matches && !open;
+        };
+        setMenu(false);
+        mobileMenu.addEventListener('change', () => setMenu(false));
+        hamburger?.addEventListener('click', () => setMenu(hamburger.getAttribute('aria-expanded') !== 'true'));
+        navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && hamburger?.getAttribute('aria-expanded') === 'true') {
+                setMenu(false);
+                hamburger.focus();
+            }
         });
 
         // 导航滚动效果
@@ -109,36 +127,7 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
             }
         });
 
-        // 滚动渐显
-        const fadeElements = document.querySelectorAll('.fade-in');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        fadeElements.forEach(el => observer.observe(el));
-
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const target = document.querySelector(targetId);
-                if (target) {
-                    window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-                    hamburger?.classList.remove('active');
-                    navLinks?.classList.remove('active');
-                }
-            });
-        });
-
-        // FAQ手风琴
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => item.classList.toggle('active'));
-        });
+        // 锚点使用浏览器原生导航，保留URL与键盘行为。
     </script>
 </body>
 </html>
@@ -187,16 +176,22 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     .nav-links a:hover { color: var(--primary); }
     .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--primary); transition: var(--transition); }
     .nav-links a:hover::after { width: 100%; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; align-items: center; justify-content: center; width: 44px; height: 44px; cursor: pointer; background: none; border: none; }
     .hamburger span { width: 24px; height: 1px; background: var(--primary); transition: var(--transition); display: block; }
 
+    html { scroll-padding-top: 100px; scroll-behavior: smooth; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--primary); outline-offset: 5px; }
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
     /* 通用 */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .section { padding: 120px 0; }
     .section-title { font-size: 36px; font-weight: 300; color: var(--primary); margin-bottom: 16px; position: relative; display: inline-block; }
     .section-title::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 40px; height: 1px; background: var(--primary); }
     .section-desc { font-size: 16px; color: var(--text-secondary); margin-bottom: 60px; max-width: 600px; }
-    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+    .fade-in { opacity: 1; transform: none; }
     .fade-in.active { opacity: 1; transform: translateY(0); }
 
     /* 按钮 */
@@ -223,7 +218,7 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     .works-grid-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .work-card { border-radius: 12px; overflow: hidden; background: var(--white); border: 1px solid var(--secondary-gray); transition: var(--transition); }
     .work-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(30,41,59,0.1); border-color: transparent; }
-    .work-img { width: 100%; height: 380px; object-fit: cover; display: block; }
+    .work-img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; display: block; }
     .work-card-secondary .work-img { height: 280px; }
     .work-content { padding: 24px; }
     .work-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -260,11 +255,11 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     .faq { max-width: 800px; margin: 0 auto; }
     .faq-item { border-bottom: 1px solid var(--secondary-gray); padding: 24px 0; cursor: pointer; }
     .faq-item:first-child { border-top: 1px solid var(--secondary-gray); }
-    .faq-item h3 { font-size: 18px; font-weight: 400; color: var(--primary); margin-bottom: 12px; position: relative; padding-right: 30px; }
-    .faq-item h3::after { content: '+'; position: absolute; right: 0; top: 0; color: var(--text-secondary); font-weight: 300; transition: transform 0.3s ease; }
-    .faq-item p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; font-weight: 300; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .faq-item.active p { max-height: 200px; }
-    .faq-item.active h3::after { transform: rotate(45deg); }
+    .faq-item summary { list-style: none; font-size: 18px; font-weight: 400; color: var(--primary); margin-bottom: 12px; position: relative; padding-right: 30px; }
+    .faq-item summary::after { content: '+'; position: absolute; right: 0; top: 0; color: var(--text-secondary); font-weight: 300; transition: transform 0.3s ease; }
+    .faq-item p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; font-weight: 300;  }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
 
     /* 文章列表 */
     .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
@@ -299,6 +294,9 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     .footer-brand h2 { font-size: 24px; font-weight: 300; margin-bottom: 12px; }
     .footer-brand h2 span { font-weight: 300; color: rgba(255,255,255,0.6); }
     .footer-brand p { color: rgba(255,255,255,0.6); font-size: 14px; }
+    .footer-qr { display: block; width: 150px; height: auto; margin: 4px 0 8px; }
+    .qr-caption { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .footer-links a { overflow-wrap: anywhere; }
     .footer-links h3 { font-size: 16px; font-weight: 400; margin-bottom: 16px; }
     .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
     .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition); font-size: 14px; }
@@ -308,7 +306,8 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     /* 响应式 */
     @media (max-width: 992px) {
         .nav-links { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: var(--white); flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 60px; gap: 30px; transition: var(--transition); }
-        .nav-links.active { left: 0; }
+        .nav-links { visibility: hidden; }
+        .nav-links.active { left: 0; visibility: visible; }
         .hamburger { display: flex; }
         .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
