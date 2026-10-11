@@ -5,12 +5,11 @@ import { getCollection } from 'astro:content';
 
 const products = (await getCollection('products')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 const newsItems = (await getCollection('news')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
-const faqItems = (await getCollection('faq')).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 const configEntries = await getCollection('siteConfig');
 const cfg = configEntries[0]?.data;
 
-const heroTitle = '让世界更好玩。';
-const heroSubtitle = '我们从真实世界中寻找灵感，用游戏创造值得经历的体验。';
+const heroTitle = '让世界更好玩';
+const heroSubtitle = '我们从真实世界中寻找灵感，用游戏创造值得经历的体验';
 const heroBtnPrimary = { text: '探索游戏', link: '#works' };
 const heroBtnSecondary = { text: '认识我们', link: '#about' };
 
@@ -37,11 +36,10 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
     <section class="section" id="works">
         <div class="container">
             <h2 class="section-title fade-in">我们的作品</h2>
-            <p class="section-desc fade-in">我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制。</p>
             {mainProduct && (
             <div class="works-grid">
                 <div class="work-card fade-in">
-                    <img src={mainProduct.data.image} alt={mainProduct.data.name} class="work-img" />
+                    <img src={mainProduct.data.image} alt={`${mainProduct.data.name}盒装实物`} class="work-img" width="1600" height="1067" loading="lazy" decoding="async" />
                     <div class="work-content">
                         <div class="work-tags">
                             <span class={`tag ${mainProduct.data.status}`}>{mainProduct.data.status === 'online' ? '已上线' : mainProduct.data.status === 'wip' ? '研发中' : '规划中'}</span>
@@ -78,6 +76,20 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
         </div>
     </section>
 
+    <section class="section development-section" id="development" aria-labelledby="development-title">
+        <div class="container">
+            <h2 class="section-title" id="development-title">研发中</h2>
+            <div class="development-grid">
+                {['风险投资', '蜡烛人'].map(name => (
+                <article class="development-card">
+                    <span class="development-status">研发中</span>
+                    <h3>《{name}》</h3>
+                </article>
+                ))}
+            </div>
+        </div>
+    </section>
+
     <!-- 关于我们 -->
     <section class="section about-section" id="about">
         <div class="container">
@@ -95,25 +107,11 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
         </div>
     </section>
 
-    <!-- 设计理念 -->
-    <section class="section philosophy-section" id="philosophy">
-        <div class="container">
-            <h2 class="section-title fade-in">从真实世界，发现游戏</h2>
-            <div class="philosophy-content fade-in">
-                <p class="philosophy-lead">我们创造游戏，也创造值得经历的体验。</p>
-                <p>我们相信，游戏最迷人的地方，不只是规则、输赢与挑战，而是玩家在游戏中真正经历的事情。</p>
-                <p>一次意想不到的合作，一场荒诞的竞争，一个令人惊讶的选择，或是突然发现身边的人有着完全不同的想法。</p>
-                <p>我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制，创造有趣、独特且值得反复体验的作品。</p>
-                <p class="philosophy-closing">好玩，是一切的开始。</p>
-            </div>
-        </div>
-    </section>
-
     <!-- 商务合作 -->
     <section class="section" id="business">
         <div class="container">
             <h2 class="section-title fade-in">一起创造更多可能</h2>
-            <p class="section-desc fade-in">我们欢迎游戏出版商、发行商、零售渠道、活动组织者及其他创意伙伴与我们合作。无论是游戏发行、渠道销售、活动体验，还是跨领域的创意合作，都期待与你交流。</p>
+            <p class="section-desc fade-in">我们欢迎你的到来。无论是游戏发行、出版商、渠道销售、活动组织者，还是跨领域的创意合作，都期待与你交流。</p>
             <div class="business-grid">
                 <div class="business-card fade-in">
                     <h3 class="business-title">游戏出版与发行</h3>
@@ -121,11 +119,7 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
                 </div>
                 <div class="business-card fade-in">
                     <h3 class="business-title">零售与渠道合作</h3>
-                    <p class="business-desc">零售渠道、线下门店及电商平台合作，拓展销售网络。</p>
-                </div>
-                <div class="business-card fade-in">
-                    <h3 class="business-title">活动及团体体验</h3>
-                    <p class="business-desc">亲子活动、团体工作坊、企业团建等场景的游戏体验合作。</p>
+                    <p class="business-desc">零售渠道、线下门店及电商平台合作。</p>
                 </div>
                 <div class="business-card fade-in">
                     <h3 class="business-title">品牌联名与创意合作</h3>
@@ -147,31 +141,23 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
             <h2 class="section-title fade-in">最新动态</h2>
             <p class="section-desc fade-in">我们的最新进展与活动信息。</p>
             <div class="news-list">
-                <div class="news-item fade-in">
-                    <div class="news-date">2026.04</div>
-                    <div class="news-title">参加广州BGM桌游展</div>
-                </div>
-                <div class="news-item fade-in">
-                    <div class="news-date">2026.02</div>
-                    <div class="news-title">发行《情绪放映厅》</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 常见问题 -->
-    <section class="section" id="faq">
-        <div class="container">
-            <h2 class="section-title fade-in">常见问题</h2>
-            <p class="section-desc fade-in">购买前，你可能想知道的。</p>
-            <div class="faq">
-                {faqItems.map(item => (
-                <div class="faq-item fade-in">
-                    <h3>{item.data.question}</h3>
-                    <p>{item.data.answer}</p>
-                </div>
+                {newsItems.map(item => (
+                <a class="news-item fade-in" href={`/news/${item.id}/`}>
+                    <div class="news-date">{item.data.date}</div>
+                    <div class="news-title">{item.data.title} <span aria-hidden="true">↗</span></div>
+                </a>
                 ))}
             </div>
         </div>
     </section>
+
 </BaseLayout>
+
+<style>
+    .development-section { background: var(--light-bg); }
+    .development-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .development-card { padding: 40px 32px; border: 1px solid var(--secondary-gray); border-radius: 12px; background: var(--white); }
+    .development-status { color: var(--text-secondary); font-size: 14px; }
+    .development-card h3 { margin-top: 16px; font-size: 28px; font-weight: 400; }
+    @media (max-width: 600px) { .development-grid { grid-template-columns: 1fr; } }
+</style>
