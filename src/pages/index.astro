@@ -38,7 +38,6 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
         <div class="container">
             <h2 class="section-title fade-in">我们的作品</h2>
             <p class="section-desc fade-in">我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制。</p>
-
             {mainProduct && (
             <div class="works-grid">
                 <div class="work-card fade-in">
@@ -58,7 +57,6 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
                 </div>
             </div>
             )}
-
             {otherProducts.length > 0 && (
             <div class="works-grid-secondary">
                 {otherProducts.map(product => (
@@ -86,65 +84,59 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
             <h2 class="section-title fade-in">关于鹈鹕</h2>
             <div class="about-wrap">
                 <div class="about-text fade-in">
-                    {cfg?.aboutText?.split('\n\n').map(para => <p>{para}</p>)}
+                    <p>鹈鹕游戏是一家独立游戏创作工作室。</p>
+                    <p>我们相信，游戏最迷人的地方，不只是规则、输赢与挑战，而是玩家在游戏中真正经历的事情。</p>
+                    <p>一次意想不到的合作，一场荒诞的竞争，一个令人惊讶的选择，或是突然发现身边的人有着完全不同的想法。</p>
+                    <p>我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制，创造有趣、独特且值得反复体验的作品。</p>
+                    <p>从桌面游戏开始，我们持续探索游戏能够带来的更多可能。</p>
+                    <p>好玩，是一切的开始。</p>
                 </div>
-                {cfg?.aboutImage && (
-                <div class="fade-in">
-                    <img src={cfg.aboutImage} alt="鹈鹕游戏工作室" class="about-img" />
-                </div>
-                )}
             </div>
         </div>
     </section>
 
-<!-- 设计理念 -->
-<section class="section philosophy-section" id="philosophy">
-<div class="container">
-<h2 class="section-title fade-in">从真实世界，发现游戏</h2>
-<div class="philosophy-content fade-in">
-<p class="philosophy-lead">我们创造游戏，也创造值得经历的体验。</p>
-<p>我们相信，游戏最迷人的地方，不只是规则、输赢与挑战，而是玩家在游戏中真正经历的事情。</p>
-<p>一次意想不到的合作，一场荒诞的竞争，一个令人惊讶的选择，或是突然发现身边的人有着完全不同的想法。</p>
-<p>我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制，创造有趣、独特且值得反复体验的作品。</p>
-<p class="philosophy-closing">好玩，是一切的开始。</p>
-</div>
-</div>
-</section>
-<!-- 商务合作 -->
+    <!-- 设计理念 -->
+    <section class="section philosophy-section" id="philosophy">
+        <div class="container">
+            <h2 class="section-title fade-in">从真实世界，发现游戏</h2>
+            <div class="philosophy-content fade-in">
+                <p class="philosophy-lead">我们创造游戏，也创造值得经历的体验。</p>
+                <p>我们相信，游戏最迷人的地方，不只是规则、输赢与挑战，而是玩家在游戏中真正经历的事情。</p>
+                <p>一次意想不到的合作，一场荒诞的竞争，一个令人惊讶的选择，或是突然发现身边的人有着完全不同的想法。</p>
+                <p>我们从真实世界中寻找灵感，将人类的行为、关系与规律转化为游戏机制，创造有趣、独特且值得反复体验的作品。</p>
+                <p class="philosophy-closing">好玩，是一切的开始。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 商务合作 -->
     <section class="section" id="business">
         <div class="container">
-            <h2 class="section-title fade-in">商务合作</h2>
-            <p class="section-desc fade-in">从桌游到文创，从IP授权到沉浸式体验，我们期待与不同领域的伙伴碰撞出更多可能。</p>
-
+            <h2 class="section-title fade-in">一起创造更多可能</h2>
+            <p class="section-desc fade-in">我们欢迎游戏出版商、发行商、零售渠道、活动组织者及其他创意伙伴与我们合作。无论是游戏发行、渠道销售、活动体验，还是跨领域的创意合作，都期待与你交流。</p>
             <div class="business-grid">
                 <div class="business-card fade-in">
-                    <h3 class="business-title">桌游设计</h3>
-                    <p class="business-desc">原创桌面游戏设计与开发，从概念到成品的全流程创作。</p>
+                    <h3 class="business-title">游戏出版与发行</h3>
+                    <p class="business-desc">欢迎出版商与发行商合作，共同将优质游戏带给更多玩家。</p>
                 </div>
                 <div class="business-card fade-in">
-                    <h3 class="business-title">文创产品设计/发行</h3>
-                    <p class="business-desc">基于游戏IP的文创衍生品设计、开发与发行合作。</p>
+                    <h3 class="business-title">零售与渠道合作</h3>
+                    <p class="business-desc">零售渠道、线下门店及电商平台合作，拓展销售网络。</p>
                 </div>
                 <div class="business-card fade-in">
-                    <h3 class="business-title">游戏IP授权</h3>
-                    <p class="business-desc">开放游戏IP授权，欢迎品牌联名、跨界合作。</p>
+                    <h3 class="business-title">活动及团体体验</h3>
+                    <p class="business-desc">亲子活动、团体工作坊、企业团建等场景的游戏体验合作。</p>
                 </div>
-<div class="business-card fade-in">
-<h3 class="business-title">沉浸式互动娱乐 设计</h3>
-<p class="business-desc">沉浸式互动娱乐体验的策划与设计，包括实景游戏、互动剧场等。</p>
-            </div>
-
-            <div class="business-contact fade-in">
-                <h3>合作洽谈</h3>
-                <div class="email">{cfg?.businessEmail || '747127623@qq.com'}</div>
-                {cfg?.businessPhone && <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">电话：{cfg.businessPhone}</div>}
-                <a href={`mailto:${cfg?.businessEmail || '747127623@qq.com'}`} class="btn btn-primary">发送合作意向</a>
-                {cfg?.wechatQR && (
-                <div style="margin-top: 24px;">
-                    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">微信扫码添加</p>
-                    <img src={cfg.wechatQR} alt="微信二维码" style="width: 120px; border-radius: 8px;" />
+                <div class="business-card fade-in">
+                    <h3 class="business-title">品牌联名与创意合作</h3>
+                    <p class="business-desc">跨领域创意合作，IP联名、文创衍生品及品牌活动。</p>
                 </div>
-                )}
+                <div class="business-contact fade-in">
+                    <h3>联系我们</h3>
+                    <div class="email">747127623@qq.com</div>
+                    <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">电话：15986894004</div>
+                    <a href="mailto:747127623@qq.com" class="btn btn-primary">联系我们</a>
+                </div>
             </div>
         </div>
     </section>
@@ -155,17 +147,14 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
             <h2 class="section-title fade-in">最新动态</h2>
             <p class="section-desc fade-in">我们的最新进展与活动信息。</p>
             <div class="news-list">
-                {newsItems.length > 0 ? newsItems.map(item => (
                 <div class="news-item fade-in">
-                    <div class="news-date">{item.data.date}</div>
-                    <div class="news-title">
-                        {item.data.link ? <a href={item.data.link} style="color: inherit; text-decoration: none;">{item.data.detail || item.data.title}</a> : (item.data.detail || item.data.title)}
-                    </div>
+                    <div class="news-date">2026.04</div>
+                    <div class="news-title">参加广州BGM桌游展</div>
                 </div>
-                ))
- : (
-<p style="text-align: center; color: var(--text-secondary); padding: 40px 0;">暂无最新动态，敬请期待。</p>
-)}
+                <div class="news-item fade-in">
+                    <div class="news-date">2026.02</div>
+                    <div class="news-title">发行《情绪放映厅》</div>
+                </div>
             </div>
         </div>
     </section>
@@ -174,7 +163,7 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
     <section class="section" id="faq">
         <div class="container">
             <h2 class="section-title fade-in">常见问题</h2>
-            <p class="section-desc fade-in">关于我们的游戏，你可能想知道的。</p>
+            <p class="section-desc fade-in">购买前，你可能想知道的。</p>
             <div class="faq">
                 {faqItems.map(item => (
                 <div class="faq-item fade-in">
