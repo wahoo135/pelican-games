@@ -1,18 +1,15 @@
 ---
 name: 情绪放映厅
-tagline: 你真的了解身边的人吗？
+tagline: "面对同一件事，每个人的感受可能完全不同。"
 status: online
-tags:
-- 心理博弈
-- 欢乐聚会
-- 桌面游戏
+tags: [社交互动, 情绪探索, 派对桌游]
 image: /images/products/emotion-theater.jpg
 price: ¥158
 players: 3-6人
 duration: 45分钟
-
 order: 0
-buyLink: "#"
+buyLink: "https://e.tb.cn/h.jaE7WzTmIeNY7UR?tk=JKklTrqYSmi"
+buyLinkText: "立即购买"
 detailLink: "#"
 ---
 
