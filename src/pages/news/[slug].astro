@@ -1,0 +1,38 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+export async function getStaticPaths() {
+  return (await getCollection('news')).map(item => ({ params: { slug: item.id }, props: { item } }));
+}
+const { item } = Astro.props;
+---
+<BaseLayout title={`${item.data.title} - 鹈鹕游戏`}>
+  <article class="section news-detail">
+    <div class="container">
+      <a href="/#news">← 返回最新动态</a>
+      <header>
+        <p class="news-date">{item.data.date}</p>
+        <h1>{item.data.title}</h1>
+      </header>
+      {item.data.detail && <div class="news-body">{item.data.detail.split(/\n\s*\n/).map(text => <p>{text}</p>)}</div>}
+      {item.data.photos.map(photo => (
+        <figure>
+          <img src={photo.image} alt={photo.caption || item.data.title} loading="lazy" decoding="async" />
+          {photo.caption && <figcaption>{photo.caption}</figcaption>}
+        </figure>
+      ))}
+      {item.data.link && <a class="btn btn-secondary" href={item.data.link}>了解更多</a>}
+    </div>
+  </article>
+</BaseLayout>
+<style>
+.news-detail { padding-top: 140px; }
+.news-detail .container { max-width: 900px; }
+header { margin: 40px 0; }
+h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.4; }
+.news-body p { margin-bottom: 24px; line-height: 1.9; white-space: pre-line; }
+figure { margin: 32px 0; }
+img { display: block; width: 100%; height: auto; border-radius: 12px; }
+figcaption { margin-top: 12px; color: var(--text-secondary); }
+</style>
