@@ -9,10 +9,10 @@ const faqItems = (await getCollection('faq')).sort((a, b) => (a.data.order ?? 0)
 const configEntries = await getCollection('siteConfig');
 const cfg = configEntries[0]?.data;
 
-const heroTitle = cfg?.heroTitle || '让世界更好玩。';
-const heroSubtitle = cfg?.heroSubtitle || '我们从真实世界中寻找灵感，创造值得经历的体验。';
-const heroBtnPrimary = { text: cfg?.heroBtnPrimaryText || '探索游戏', link: cfg?.heroBtnPrimaryLink || '#works' };
-const heroBtnSecondary = { text: cfg?.heroBtnSecondaryText || '认识我们', link: cfg?.heroBtnSecondaryLink || '#business' };
+const heroTitle = '让世界更好玩。';
+const heroSubtitle = '我们从真实世界中寻找灵感，用游戏创造值得经历的体验。';
+const heroBtnPrimary = { text: '探索游戏', link: '#works' };
+const heroBtnSecondary = { text: '认识我们', link: '#about' };
 
 const mainProduct = products.find(p => p.data.status === 'online');
 const otherProducts = products.filter(p => p.data.status !== 'online');
@@ -51,7 +51,7 @@ const otherProducts = products.filter(p => p.data.status !== 'online');
                         <h3 class="work-title">《{mainProduct.data.name}》</h3>
                         <p class="work-desc">{mainProduct.data.tagline}</p>
                         <div class="btn-group" style="justify-content: flex-start;">
-                            <a href={`/products/${mainProduct.id}`} class="btn btn-primary">了解详情</a>
+                            <a href={`/products/${mainProduct.id}`} class="btn btn-primary">了解游戏</a>
                             {mainProduct.data.buyLink && <a href={mainProduct.data.buyLink} class="btn btn-secondary">{mainProduct.data.buyLinkText || '购买渠道'}</a>}
                         </div>
                     </div>
