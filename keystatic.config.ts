@@ -55,9 +55,20 @@ export default config({
           publicPath: '/images/products',
           validation: { isRequired: true },
         }),
+        gallery: fields.array(fields.object({
+          image: fields.image({ label: '实物照片', directory: 'public/images/products', publicPath: '/images/products', validation: { isRequired: true } }),
+          caption: fields.text({ label: '照片说明', validation: { isRequired: true } }),
+        }), { label: '产品相册', itemLabel: props => props.fields.caption.value || '实物照片' }),
         price: fields.text({ label: '价格（如 ¥158）' }),
         players: fields.text({ label: '人数（如 3-6人）' }),
         duration: fields.text({ label: '时长（如 45分钟）' }),
+        age: fields.text({ label: '建议年龄（如 14+）' }),
+        rulebook: fields.text({ label: '规则书地址（如 /rules/emotion-theater-rulebook.pdf）' }),
+        videos: fields.array(fields.object({
+          label: fields.text({ label: '分类（如 完整规则讲解）' }),
+          title: fields.text({ label: '视频标题' }),
+          url: fields.url({ label: '视频链接' }),
+        }), { label: '教学与试玩视频', itemLabel: props => props.fields.label.value || '视频' }),
         buyLink: fields.url({ label: '购买链接' }),
         buyLinkText: fields.text({ label: '购买按钮文字', defaultValue: '立即购买' }),
         description: fields.mdx({
@@ -122,6 +133,10 @@ export default config({
         title: fields.slug({ name: { label: '标题' } }),
         date: fields.text({ label: '日期（如 2026.08）', validation: { isRequired: true } }),
         detail: fields.text({ label: '详情说明', multiline: true }),
+        photos: fields.array(fields.object({
+          image: fields.image({ label: '照片', directory: 'public/images/news', publicPath: '/images/news/' }),
+          caption: fields.text({ label: '照片说明' }),
+        }), { label: '照片', itemLabel: props => props.fields.caption.value || '照片' }),
         link: fields.url({ label: '相关链接' }),
         order: fields.integer({ label: '排序（越小越靠前）', defaultValue: 0 }),
       },
