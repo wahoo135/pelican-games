@@ -1,23 +1,39 @@
 ---
 export interface Props {
-  title: string;
-  description?: string;
+ title:string;description?:string;lang?:'zh'|'en';structuredData?:Record<string,unknown>;
 }
-
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游，代表作《情绪放映厅》' } = Astro.props;
+const {title,description='鹈鹕游戏是一家独立游戏创作工作室。从真实世界中寻找灵感，用游戏创造值得经历的体验。',lang='zh',structuredData}=Astro.props;
+const en=lang==='en';
+const route=Astro.url.pathname.replace(/^\/(zh|en)(?=\/)/,'').replace(/^\/products\//,'/games/');
+const routeKey=route==='/'?'':route.replace(/^\/|\/$/g,'');
+const canonical=new URL(`/${lang}/${routeKey}${routeKey?'/':''}`,Astro.site);
+const nav=[['','首页','Home'],['games/','游戏','Games'],['studio/','工作室','Studio'],['journal/','创作日志','Journal'],['contact/','联系','Contact']];
+const otherLanguage=`/${en?'zh':'en'}/${routeKey}${routeKey?'/':''}`;
+const shareImage=new URL('/images/products/emotion-theater-cover-v2.jpg',Astro.site);
 ---
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang={en?'en':'zh-CN'}>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {en&&<meta name="robots" content="noindex, nofollow"/>}
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content={title}/>
+    <meta property="og:description" content={description}/>
+    <meta property="og:url" content={canonical}/>
+    <meta property="og:image" content={shareImage}/>
+    <meta property="og:locale" content={en?'en_US':'zh_CN'}/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content={title}/>
+    <meta name="twitter:description" content={description}/>
+    <meta name="twitter:image" content={shareImage}/>
+    {structuredData&&<script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g,'\\u003c')}/>}
     <meta name="keywords" content="鹈鹕游戏,情绪放映厅,情绪桌游,聚会游戏,团建游戏,内向友好" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/jpeg" href="/images/brand/pelican-logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet" />
@@ -27,64 +43,55 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "鹈鹕游戏 Pelican Games",
-      "description": "专注打造有温度、有深度的桌面游戏工作室",
+      "description": "独立游戏创作工作室，从真实世界中寻找灵感",
       "url": "https://pelicangames.studio"
     })} />
 </head>
 <body>
+    <a class="skip-link" href="#main-content">{en?'Skip to content':'跳至正文'}</a>
     <!-- 导航栏 -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">鹈鹕游戏 <span>Pelican Games</span></a>
-            <button class="hamburger" id="hamburger" aria-label="菜单" aria-expanded="false" aria-controls="navLinks">
+            <a href={`/${lang}/`} class="logo"><img class="nav-emblem" src="/images/brand/pelican-logo.jpg" alt="" width="36" height="36"/>鹈鹕游戏 <span>Pelican Games</span></a>
+            <button class="hamburger" id="hamburger" aria-label={en?'Menu':'菜单'} aria-expanded="false" aria-controls="navLinks">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="/">首页</a></li>
-                <li><a href="/#works">作品</a></li>
-                    <li><a href="/#development">研发中</a></li>
-                <li><a href="/#about">关于我们</a></li>
-                <li><a href="/articles">文章</a></li>
-                <li><a href="/#business">商务合作</a></li>
-                <li><a href="/#news">最新动态</a></li>
+                {nav.map(([path,zh,english])=><li><a href={`/${lang}/${path}`} aria-current={(path===''?routeKey==='':routeKey===path.slice(0,-1)||routeKey.startsWith(path))?'page':undefined}>{lang==='zh'?`${zh} ${english}`:english}</a></li>)}
+                <li><a class="language-switch" href={otherLanguage} aria-label={en?'Switch to Chinese':'查看英文审核草稿'}>{en?'中文':'EN · 草稿'}</a></li>
             </ul>
         </div>
     </nav>
 
-    <slot />
+    {en&&<div class="translation-draft" role="note">English review draft — translations and the proposed tagline await approval. <a href={otherLanguage}>中文版</a></div>}
+    <div id="main-content" tabindex="-1"><slot /></div>
 
     <!-- 页脚 -->
     <footer id="site-footer">
         <div class="footer-container">
             <div class="footer-brand">
                 <h2>鹈鹕游戏 <span>Pelican Games</span></h2>
-                <p>让世界更好玩。</p>
+                <p>{en?'Play opens up possibilities':'让世界更好玩'}</p>
             </div>
             <div class="footer-links">
-                <h3>导航</h3>
-                <ul>
-                    <li><a href="/">首页</a></li>
-                    <li><a href="/#works">作品</a></li>
-                    <li><a href="/#development">研发中</a></li>
-                    <li><a href="/articles">文章</a></li>
-                    <li><a href="/#business">商务合作</a></li>
-                </ul>
+                <h3>{en?'Navigate':'导航'}</h3>
+                <ul>{nav.map(([path,zh,english])=><li><a href={`/${lang}/${path}`}>{en?english:zh}</a></li>)}</ul>
             </div>
             <div class="footer-links">
-                <h3>联系我们</h3>
+                <h3>{en?'Contact':'联系我们'}</h3>
                 <ul>
-                    <li><a href="mailto:747127623@qq.com">商务邮箱：747127623@qq.com</a></li>
-                    <li><a href="/#business">合作洽谈：查看合作方向</a></li>
+                    <li><a href="mailto:747127623@qq.com">{en?'Business email:':'商务邮箱：'}747127623@qq.com</a></li>
+                    <li><a href={`/${lang}/contact/`}>{en?'Discuss a collaboration':'合作洽谈：查看合作方向'}</a></li>
                 </ul>
             </div>
 <div class="footer-links">
-<h3>关注我们</h3>
+<h3>{en?'Follow us':'关注我们'}</h3>
 <ul>
-<li><a href="https://xhslink.cn/o/283FtkcAhhj" target="_blank" rel="noopener">小红书官号：95020198510</a></li>
-<li><a href="https://xhslink.cn/o/283FtkcAhhj" target="_blank" rel="noopener"><img class="footer-qr" src="/images/xiaohongshu-official-qr.jpg" alt="鹈鹕游戏小红书官号二维码，账号95020198510" width="187" height="185" loading="lazy" /></a><span class="qr-caption">扫码关注小红书</span></li>
-<li>微信公众号：鹈鹕游戏</li>
-<li><img class="footer-qr" src="/images/wechat-official-qr.jpg" alt="鹈鹕游戏微信公众号二维码" width="430" height="430" loading="lazy" /><span class="qr-caption">微信扫码关注公众号</span></li>
-<li>微信号：CartonStudio</li>
+<li><a href="https://xhslink.cn/o/283FtkcAhhj" target="_blank" rel="noopener">{en?'Xiaohongshu:':'小红书官号：'}95020198510</a></li>
+<li><a href="https://xhslink.cn/o/283FtkcAhhj" target="_blank" rel="noopener"><img class="footer-qr" src="/images/xiaohongshu-official-qr.jpg" alt={en?'Pelican Games Xiaohongshu QR code, account 95020198510':'鹈鹕游戏小红书官号二维码，账号95020198510'} width="187" height="185" loading="lazy" /></a><span class="qr-caption">{en?'Scan to follow on Xiaohongshu':'扫码关注小红书'}</span></li>
+<li>{en?'WeChat official account: 鹈鹕游戏':'微信公众号：鹈鹕游戏'}</li>
+<li><img class="footer-qr" src="/images/wechat-official-qr.jpg" alt={en?'Pelican Games WeChat official account QR code':'鹈鹕游戏微信公众号二维码'} width="430" height="430" loading="lazy" /><span class="qr-caption">{en?'Scan in WeChat to follow':'微信扫码关注公众号'}</span></li>
+<li>{en?'WeChat ID:':'微信号：'}CartonStudio</li>
 </ul>
 </div>
 </div>
@@ -96,6 +103,21 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     </footer>
 
     <script>
+        document.querySelectorAll<HTMLImageElement>('img[data-fallback]').forEach(img=>{
+            const fallback=()=>{const src=img.dataset.fallback;if(src){delete img.dataset.fallback;img.src=src;}};
+            img.addEventListener('error',fallback,{once:true});
+            if(img.complete&&img.naturalWidth===0)fallback();
+        });
+        // Reveal once as sections approach the viewport; content remains visible without JS.
+        const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const revealElements = document.querySelectorAll<HTMLElement>('[data-reveal]');
+        if (!motionPreference.matches && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+                if(entry.isIntersecting){entry.target.classList.remove('reveal-pending');entry.target.classList.add('reveal-visible');observer.unobserve(entry.target);}
+            }), {threshold:0.08});
+            revealElements.forEach(el=>{if(el.getBoundingClientRect().top > window.innerHeight){el.classList.add('reveal-pending');observer.observe(el);}});
+            motionPreference.addEventListener('change',()=>{revealElements.forEach(el=>el.classList.remove('reveal-pending'));observer.disconnect();},{once:true});
+        }
         // 移动端菜单
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
@@ -133,6 +155,8 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
 </html>
 
 <style is:global>
+@layer legacy {
+.skip-link{position:fixed;top:-100px;left:16px;z-index:1000;padding:12px;background:white;color:#182132}.skip-link:focus{top:16px}.nav-links a[aria-current="page"]{text-decoration:underline;text-underline-offset:7px}.language-switch{font-size:13px!important;white-space:nowrap}.translation-draft{position:relative;margin:80px auto -60px;padding:12px 24px;background:#fff5de;color:#554528;z-index:1;text-align:center;font-size:14px}.translation-draft a{text-decoration:underline}.nav-links{flex-wrap:wrap}
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -358,4 +382,25 @@ const { title, description = '鹈鹕游戏工作室专注情绪表达类桌游�
     grid-template-columns: 1fr !important;
   }
 }
+}
+</style>
+
+<style is:global>
+/* Pelican brand theme. Keep existing routes, content and controls. */
+:root{--primary:#ffbd20;--secondary-warm:#164b44;--secondary-gray:#ffffff20;--light-bg:#073d36;--dark-bg:#002a26;--text-primary:#f3f2e9;--text-secondary:#b5c7be;--white:#f3f2e9}
+body{background:#003730;color:var(--text-primary);font-family:Inter,-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 90% 20%,#00766b26,transparent 55%),radial-gradient(ellipse at 0 90%,#102c361c,transparent 50%)}
+a{color:inherit;text-underline-offset:5px}a:hover{color:var(--primary)}
+#navbar{background:#003730cc;border-bottom:1px solid #ffffff12;padding:18px 0;backdrop-filter:blur(16px)}#navbar.scrolled{background:#002e29ed;padding:12px 0;box-shadow:none}
+.nav-container,.container,.footer-container{max-width:1280px}.nav-container{gap:24px}.logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;color:var(--text-primary);white-space:nowrap}.logo .nav-emblem{width:36px;height:36px;object-fit:cover;border-radius:2px;transition:transform .5s}.logo:hover .nav-emblem{transform:rotate(-8deg)}.logo span{font-size:10px;letter-spacing:.05em;color:var(--text-secondary)}.nav-links{gap:26px;flex-wrap:nowrap}.nav-links a{font-size:13px;white-space:nowrap}.nav-links a[aria-current='page']{color:var(--primary);text-decoration:none}.nav-links a::after{background:var(--primary)}.language-switch{color:var(--text-secondary)!important}.hamburger span{background:var(--text-primary)}
+.section{padding-block:110px}.section-title{font-weight:650;color:var(--text-primary);letter-spacing:-.04em}.section-title::after{display:none}.btn{border-radius:3px;padding:15px 25px;font-size:14px;font-weight:600}.btn-primary{background:var(--primary);color:#002d29}.btn-primary:hover{color:#002d29;background:#ffd36a;box-shadow:none;transform:translateY(-3px)}.btn-secondary{border-color:#ffffff40;color:var(--text-primary)}.btn-secondary:hover{background:#ffffff10;color:var(--primary);border-color:var(--primary)}.skip-link{background:var(--primary);color:var(--dark-bg)}a:focus-visible,button:focus-visible,summary:focus-visible{outline-color:var(--primary)}
+.hub{padding-top:150px!important;padding-bottom:110px!important}.hub>.section-title{font-size:clamp(44px,6vw,76px);margin-bottom:38px}.hub .cards{gap:28px}.hub .game-card,.hub .plain-card{background:transparent;border-color:var(--secondary-gray);border-radius:5px}.hub .game-card{padding:20px}.hub .game-card>a{text-decoration:none}.hub .game-card img{border-radius:3px;transition:transform .7s}.hub .game-card>a:hover img{transform:scale(.98)}.hub .plain-card{padding:32px}.hub .text-body{font-size:21px;max-width:800px}.hub .text-body p:first-child{font-size:clamp(24px,3vw,38px);color:var(--text-primary)}.hub .text-body p{color:var(--text-secondary)}.hub .text-body p:last-child{color:var(--primary)}.hub .intro{color:var(--text-secondary)}body .hub .directions{grid-template-columns:repeat(3,minmax(0,1fr))}.hub .directions h3{font-size:22px}.hub .directions p{color:var(--text-secondary);font-size:15px}body .hub .copy-control{background:transparent;border-color:#ffffff40;color:var(--text-primary)}body .hub .copy-control:hover{border-color:var(--primary);color:var(--primary)}.hub .contact-block>p>a{color:var(--primary)}.hub .journal-list{max-width:none}.hub .journal-list article{padding-block:38px}.hub .journal-list h2{font-size:clamp(24px,3vw,36px)}
+.product-detail{padding-bottom:80px}.product-detail .product-hero{border-radius:5px;border:1px solid var(--secondary-gray)}.product-detail .product-hero-overlay{background:#002a26;padding:32px}.product-detail .product-hero-overlay h1{font-weight:600}.product-detail .rulebook{background:#ffffff08;border:1px solid var(--secondary-gray);border-radius:4px}.product-detail .video-link{border-radius:4px;background:transparent}.product-detail .video-link:hover{background:#ffffff05}.product-detail .gallery-grid img{border-radius:4px}.product-detail .prose{background:transparent}.product-detail .tag{color:#f3f2e9}.product-detail .info-value{color:var(--text-primary)}.product-detail .price{color:var(--primary)}
+#site-footer{background:#002924;border-top:1px solid var(--secondary-gray);padding-top:70px}.footer-container{grid-template-columns:1.3fr .7fr 1fr 1fr;gap:32px}.footer-brand h2{font-size:22px;font-weight:650}.footer-brand h2 span{display:block;font-size:12px;letter-spacing:.12em;margin-top:10px}.footer-qr{width:112px;border:6px solid white;border-radius:2px}.footer-links h3{font-size:13px;color:var(--primary)}.copyright{font-size:11px;letter-spacing:.06em}.translation-draft{background:#174e43;color:#e1e8dc;font-size:12px;margin-top:78px;border-bottom:1px solid #ffffff14}
+[data-reveal]{transition:opacity .85s ease,translate .85s cubic-bezier(.2,.7,.2,1)}[data-reveal].reveal-pending{opacity:0;translate:0 28px}[data-reveal].reveal-visible{opacity:1;translate:0 0}
+@media(max-width:1100px){.logo span{display:none}.nav-links{gap:20px}}
+@media(max-width:992px){.nav-links{background:#003730;top:78px;height:calc(100dvh - 78px);gap:26px;overflow-y:auto;padding:44px 24px}.nav-links a{font-size:20px}.logo span{display:inline}.footer-container{grid-template-columns:1fr 1fr}body .hub .directions{grid-template-columns:1fr}.section{padding-block:76px}}
+@media(max-width:600px){.nav-container,.container{padding-inline:24px}.logo{font-size:16px}.logo span{font-size:9px}.logo .nav-emblem{width:30px;height:30px}.footer-container{grid-template-columns:1fr 1fr;gap:40px 24px}.footer-brand{grid-column:1/-1}.footer-container>.footer-links:last-child{grid-column:1/-1}.footer-container>.footer-links:last-child ul{display:grid;grid-template-columns:1fr 1fr;align-items:start}.footer-container>.footer-links:last-child ul>li:first-child{grid-column:1}.footer-container>.footer-links:last-child ul>li:nth-child(2){grid-column:1;grid-row:2}.footer-container>.footer-links:last-child ul>li:nth-child(3){grid-column:2;grid-row:1}.footer-container>.footer-links:last-child ul>li:nth-child(4){grid-column:2;grid-row:2}.footer-container>.footer-links:last-child ul>li:last-child{grid-column:1/-1}.footer-links li{font-size:13px}.hub{padding-top:120px!important}.hub .text-body{font-size:17px}.product-detail .product-hero-overlay{padding:24px 20px}.translation-draft{margin-bottom:-70px}}
+@media(prefers-reduced-motion:reduce){[data-reveal],[data-reveal].reveal-pending{opacity:1;translate:none;transition:none}}
+
 </style>
