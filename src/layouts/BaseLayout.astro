@@ -1,15 +1,15 @@
 ---
 export interface Props {
- title:string;description?:string;lang?:'zh'|'en';structuredData?:Record<string,unknown>;
+ title:string;description?:string;lang?:'zh'|'en';structuredData?:Record<string,unknown>;image?:string;
 }
-const {title,description='鹈鹕游戏是一家独立游戏创作工作室。从真实世界中寻找灵感，用游戏创造值得经历的体验。',lang='zh',structuredData}=Astro.props;
+const {title,description='鹈鹕游戏是一家独立游戏创作工作室。从真实世界中寻找灵感，用游戏创造值得经历的体验。',lang='zh',structuredData,image}=Astro.props;
 const en=lang==='en';
 const route=Astro.url.pathname.replace(/^\/(zh|en)(?=\/)/,'').replace(/^\/products\//,'/games/');
 const routeKey=route==='/'?'':route.replace(/^\/|\/$/g,'');
 const canonical=new URL(`/${lang}/${routeKey}${routeKey?'/':''}`,Astro.site);
 const nav=[['','首页','Home'],['games/','游戏','Games'],['studio/','工作室','Studio'],['journal/','创作日志','Journal'],['contact/','联系','Contact']];
 const otherLanguage=`/${en?'zh':'en'}/${routeKey}${routeKey?'/':''}`;
-const shareImage=new URL('/images/products/emotion-theater-cover-v2.jpg',Astro.site);
+const shareImage=new URL(image||(routeKey.startsWith('games/')?'/images/products/emotion-theater-cover-v2.jpg':'/images/brand/pelican-logo.jpg'),Astro.site);
 ---
 
 <!DOCTYPE html>
@@ -21,6 +21,8 @@ const shareImage=new URL('/images/products/emotion-theater-cover-v2.jpg',Astro.s
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {en&&<meta name="robots" content="noindex, nofollow"/>}
+    <meta name="author" content="鹈鹕游戏"/>
+    <meta property="og:site_name" content="鹈鹕游戏 Pelican Games"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content={title}/>
     <meta property="og:description" content={description}/>
@@ -42,7 +44,11 @@ const shareImage=new URL('/images/products/emotion-theater-cover-v2.jpg',Astro.s
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "鹈鹕游戏 Pelican Games",
+      "@id": "https://pelicangames.studio/#organization",
+      "name": "鹈鹕游戏",
+      "alternateName": "Pelican Games",
+      "logo": "https://pelicangames.studio/images/brand/pelican-logo.jpg",
+      "email": "747127623@qq.com",
       "description": "独立游戏创作工作室，从真实世界中寻找灵感",
       "url": "https://pelicangames.studio"
     })} />
