@@ -7,7 +7,7 @@ const product=(await getCollection('products')).find(p=>p.data.status==='online'
 const news=(await getCollection('news')).sort((a,b)=>a.data.order-b.data.order).slice(0,3);
 const base=`/${lang}`;
 ---
-<BaseLayout lang={lang} title={en?'Pelican Games — Independent tabletop games':'鹈鹕游戏 — 独立桌游创作工作室'} description={en?'Original tabletop games inspired by real-world behavior, relationships and patterns.':'鹈鹕游戏是一家独立游戏创作工作室。从真实世界中寻找灵感，用游戏创造值得经历的体验。'}>
+<BaseLayout lang={lang} title={en?'Pelican Games — Independent tabletop games':'鹈鹕游戏官网｜情绪放映厅 · 独立桌游品牌'} description={en?'Original tabletop games inspired by real-world behavior, relationships and patterns.':'鹈鹕游戏（Pelican Games）是一家独立游戏创作工作室。《情绪放映厅》是一款让情绪被看见的聚会桌游，支持1–6人，时长45分钟。官网提供作品介绍、玩法规则、试玩视频与购买入口。'}>
 <main class="brand-home">
 <section class="brand-stage" aria-labelledby="brand-title">
  <div class="brand-sticky">

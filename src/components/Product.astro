@@ -15,7 +15,7 @@ const statusLabels: Record<string, string> = {
 };
 ---
 
-<BaseLayout lang={lang} title={en?'The Feeling Theater — Pelican Games':`《${product.data.name}》— 鹈鹕游戏`} description={en?'A party game that brings feelings into view. Guess how others feel in everyday scenarios.':product.data.tagline} structuredData={{"@context":"https://schema.org","@type":"Game",name:en?'The Feeling Theater':product.data.name,numberOfPlayers:{"@type":"QuantitativeValue",minValue:1,maxValue:6},typicalAgeRange:'14-',image:new URL(product.data.image,Astro.site).href}} >
+<BaseLayout lang={lang} title={en?'The Feeling Theater — Pelican Games':`《${product.data.name}》官网｜玩法规则与试玩视频 — 鹈鹕游戏`} description={en?'A party game that brings feelings into view. Guess how others feel in everyday scenarios.':`${product.data.name}是鹈鹕游戏推出的聚会桌游：聚会破冰、情绪流、猜心与语言表达。支持1–6人，45分钟，建议14岁以上。查看官方玩法、PDF规则书、试玩视频和购买入口。`} structuredData={{"@context":"https://schema.org","@type":"Game",name:en?'The Feeling Theater':product.data.name,numberOfPlayers:{"@type":"QuantitativeValue",minValue:1,maxValue:6},typicalAgeRange:'14-',image:new URL(product.data.image,Astro.site).href}} >
     <main class="container product-detail">
         <div class="product-hero">
             <img src={product.data.image} alt={en?'The Feeling Theater game box':`${product.data.name}盒装实物`} data-fallback="/images/products/emotion-theater-components.jpg" class="product-hero-img" width="1600" height="1067" fetchpriority="high" decoding="async" />
