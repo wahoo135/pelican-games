@@ -1,0 +1,8 @@
+---
+export const prerender=true;
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {getCollection} from 'astro:content';
+export async function getStaticPaths(){return (await getCollection('news')).filter(n=>n.data.detail).map(item=>({params:{lang:'zh',slug:item.id},props:{item}}));}
+const {item}=Astro.props;
+---
+<BaseLayout lang="zh" title={`${item.data.title} — 鹈鹕游戏`} description={item.data.detail.slice(0,140)}><main class="container" style="padding-top:130px;padding-bottom:80px;max-width:900px"><a href="/zh/journal/">← 返回创作日志</a><p>{item.data.date}</p><h1>{item.data.title}</h1>{item.data.detail.split(/\n\s*\n/).map(text=><p style="white-space:pre-line;margin:24px 0;line-height:1.9">{text}</p>)}{item.data.photos.map(photo=><figure><img src={photo.image} alt={photo.caption||item.data.title} loading="lazy" style="width:100%;height:auto"/>{photo.caption&&<figcaption>{photo.caption}</figcaption>}</figure>)}</main></BaseLayout>

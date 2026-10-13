@@ -1,0 +1,8 @@
+---
+export const prerender=true;
+import Product from '../../../components/Product.astro';
+import {getCollection} from 'astro:content';
+export async function getStaticPaths(){const games=await getCollection('products');return ['zh','en'].flatMap(lang=>games.map(product=>({params:{lang,slug:product.id},props:{product}})));}
+const {product}=Astro.props;
+---
+<Product product={product} lang={Astro.params.lang}/>

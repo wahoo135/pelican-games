@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {gameSteps} from '../lib/copy';
+import { getCollection, render } from 'astro:content';
+
+const { product, lang='zh' } = Astro.props;
+const en=lang==='en';
+const base=`/${lang}`;
+const { Content } = await render(product);
+
+const statusLabels: Record<string, string> = {
+  online: en?'Published':'已发行',
+  wip: '研发中',
+  planned: '规划中',
+};
+---
+
+<BaseLayout lang={lang} title={en?'The Feeling Theater — Pelican Games':`《${product.data.name}》— 鹈鹕游戏`} description={en?'A party game that brings feelings into view. Guess how others feel in everyday scenarios.':product.data.tagline} structuredData={{"@context":"https://schema.org","@type":"Game",name:en?'The Feeling Theater':product.data.name,numberOfPlayers:{"@type":"QuantitativeValue",minValue:1,maxValue:6},typicalAgeRange:'14-',image:new URL(product.data.image,Astro.site).href}} >
+    <main class="container product-detail">
+        <div class="product-hero">
+            <img src={product.data.image} alt={en?'The Feeling Theater game box':`${product.data.name}盒装实物`} data-fallback="/images/products/emotion-theater-components.jpg" class="product-hero-img" width="1600" height="1067" fetchpriority="high" decoding="async" />
+            <div class="product-hero-overlay">
+                <div class="product-badge-row">
+                    <span class={`tag ${product.data.status}`}>{statusLabels[product.data.status]}</span>
+                    {(en?['Icebreakers','Emotional flow','Guessing feelings','Self-expression']:product.data.tags).map(tag => <span class="tag">{tag}</span>)}
+                </div>
+                <h1>{en?'The Feeling Theater':`《${product.data.name}》`}</h1>
+                {product.data.tagline && <p class="tagline">{en?'A party game that brings feelings into view.':product.data.tagline}</p>}
+            </div>
+        </div>
+
+        <div class="product-info-bar">
+            {product.data.price && (
+            <div class="info-item">
+                <span class="info-label">{en?'Price (CNY)':'价格'}</span>
+                <span class="info-value price">{product.data.price}</span>
+            </div>
+            )}
+            {product.data.players && (
+            <div class="info-item">
+                <span class="info-label">{en?'Players':'人数'}</span>
+                <span class="info-value">{en?'1–6':product.data.players}</span>
+            </div>
+            )}
+            {product.data.duration && (
+            <div class="info-item">
+                <span class="info-label">{en?'Duration':'时长'}</span>
+                <span class="info-value">{en?'45 min':product.data.duration}</span>
+            </div>
+            )}
+        </div>
+
+        {product.data.age && <p class="age-note">{en?'Ages':'建议年龄'}：{product.data.age}</p>}
+        <div class="product-actions-bar">
+            {product.data.buyLink && (
+            <a href={product.data.buyLink} class="btn btn-primary">{en?'Buy the Chinese edition':'立即购买'}</a>
+            )}
+            {product.data.rulebook && <a href="#rulebook-title" class="btn btn-secondary">{en?'Rules':'玩法与规则'}</a>}
+            {product.data.videos.length > 0 && <a href="#video-title" class="btn btn-secondary">{en?'Videos':'教学与试玩'}</a>}
+            {product.data.detailLink && product.data.detailLink !== '#' && (
+            <a href={product.data.detailLink} class="btn btn-secondary">了解更多</a>
+            )}
+            <a href={`${base}/games/`} class="btn btn-secondary">{en?'Back to Games':'返回作品列表'}</a>
+        </div>
+
+        <section class="game-summary"><h2>{en?'How it plays':'怎么玩'}</h2><p>{en?'Take turns choosing how you would feel in a scenario. Everyone else guesses your changing feelings and shares their reasoning.':'每位玩家轮流成为被猜玩家，其他人猜测其在特定情境下的情绪变化，并分享判断的理由。'}</p><ol>{gameSteps[lang as 'zh'|'en'].map(step=><li>{step}</li>)}</ol><p>{en?'A brief overview; consult the original Chinese rulebook for full details.':'以上为玩法概要，完整细节以原版规则书为准。'}</p></section>
+        {product.data.rulebook && (
+        <section class="rulebook" aria-labelledby="rulebook-title">
+            <h2 id="rulebook-title">{en?'Original rulebook':'原版规则书'}</h2>
+            <p>{en?'Chinese PDF · 4 pages · approximately 6 MB. Multiplayer rules, scoring and components.':'中文版 · PDF 共 4 页，约 6 MB。多人玩法、计分和配件清单。'}</p>
+            <div class="product-actions-bar">
+                <a href={product.data.rulebook} class="btn btn-primary" target="_blank" rel="noopener">{en?'View Chinese rules':'查看规则书'}</a>
+                <a href={product.data.rulebook} class="btn btn-secondary" download>{en?'Download PDF':'下载规则书'}</a>
+            </div>
+        </section>
+        )}
+
+        {product.data.gallery.length > 0 && (
+        <section class="product-gallery" aria-labelledby="gallery-title">
+            <h2 id="gallery-title">{en?'A closer look':'实物展示'}</h2>
+            <div class="gallery-grid">
+                {product.data.gallery.map(photo => (
+                <figure>
+                    <img src={photo.image} alt={en?['Board and components','Emotion tokens in play','Board details','Scenario cards','Solo rules and life-stage cards'][product.data.gallery.indexOf(photo)]:photo.caption} width="1600" height="1067" loading="lazy" decoding="async" />
+                    <figcaption>{en?['Board and components','Emotion tokens in play','Board details','Scenario cards','Solo rules and life-stage cards'][product.data.gallery.indexOf(photo)]:photo.caption}</figcaption>
+                </figure>
+                ))}
+            </div>
+        </section>
+        )}
+
+        <section class="game-summary"><h2>{en?'Scenarios and solo play':'情境与单人体验'}</h2><p>{en?'120 double-sided cards offer 240 scenarios across daily life and imagination, friends, school and work, romance, and family. Solo modes explore an imagined life or memories of your own past.':'120张双面情境卡，包含240个情境，分为日常&想象、朋友、学校&公司、恋情、家庭。也支持随机人生和回忆过往两种单人体验。'}</p></section>
+        <details class="promotional-details"><summary>{en?'Original Chinese introduction and design story':'查看原版图文介绍与设计故事'}</summary><div class="prose"><Content /></div></details>
+        {product.data.videos.length > 0 && (
+        <section class="product-videos" aria-labelledby="video-title">
+            <h2 id="video-title">{en?'Learn and watch':'教学与试玩'}</h2>
+            <div class="video-list">
+                {product.data.videos.map(video => (
+                <a class="video-link" href={video.url} target="_blank" rel="noopener">
+                    <h3>{en?['Rules tutorial','Full playthrough','Simplified playthrough'][product.data.videos.indexOf(video)]:video.title}</h3>
+                    <span class="video-action">{en?'Watch on Bilibili (Chinese) ↗':'在 B 站观看 ↗'}</span>
+                </a>
+                ))}
+            </div>
+        </section>
+        )}
+
+        {product.data.buyLink && (
+        <div class="product-final-purchase">
+            <a href={product.data.buyLink} class="btn btn-primary">{en?'Buy the Chinese edition':'立即购买'}</a>
+        </div>
+        )}
+
+        <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--secondary-gray);">
+            <a href={`${base}/games/`} class="btn btn-secondary">← {en?'Back to Games':'返回作品列表'}</a>
+        </div>
+    </main>
+</BaseLayout>
+
+<style>
+.game-summary{margin:40px 0;line-height:1.9}.game-summary h2{font-size:24px;font-weight:400;margin-bottom:20px}.game-summary ol{padding-left:24px;margin:20px 0}.game-summary li{margin:12px 0}.promotional-details{margin:40px 0;border-block:1px solid var(--secondary-gray);padding:24px 0}.promotional-details summary{cursor:pointer;font-size:20px;min-height:44px}.promotional-details .prose{margin-top:24px}
+    .prose :global(.introduction-images) { display: grid; gap: 0; }
+    .prose :global(.introduction-images img) { display: block; width: 100%; height: auto; margin: 0; border-radius: 0; }
+
+    .product-detail { padding-top: 100px; max-width: 900px; }
+    .product-hero { position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 32px; }
+    .product-hero-img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; display: block; }
+    .product-hero-overlay { padding: 24px 32px; background: var(--dark-bg); color: white; }
+    .product-hero-overlay h1 { font-size: 32px; font-weight: 400; margin-top: 8px; letter-spacing: 0.05em; }
+    .tagline { font-size: 16px; opacity: 0.8; margin-top: 8px; }
+    .product-badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { padding: 4px 12px; border-radius: 100px; font-size: 12px; background: rgba(255,255,255,0.2); color: white; }
+    .tag.online { background: rgba(248,244,238,0.3); color: white; }
+    .tag.wip { background: rgba(226,232,240,0.3); color: white; }
+
+    .product-info-bar { display: flex; gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--secondary-gray); margin-bottom: 24px; }
+    .info-item { display: flex; flex-direction: column; gap: 4px; }
+    .info-label { font-size: 12px; color: var(--text-secondary); letter-spacing: 0.1em; }
+    .info-value { font-size: 18px; color: var(--text-primary); }
+    .info-value.price { color: var(--primary); font-weight: 500; }
+
+    .product-actions-bar { display: flex; gap: 16px; flex-wrap: wrap; }
+    .age-note { margin-bottom: 20px; color: var(--text-secondary); }
+    .product-videos { margin-top: 40px; }
+    .product-videos h2 { font-size: 24px; font-weight: 400; margin-bottom: 12px; }
+    .video-intro { color: var(--text-secondary); margin-bottom: 24px; }
+    .video-list { display: grid; gap: 16px; }
+    .video-link { padding: 20px 24px; display: block; text-decoration: none; border: 1px solid var(--secondary-gray); border-radius: 8px; color: var(--text-primary); }
+    .video-link:hover { border-color: var(--primary); }
+    .product-final-purchase { margin-top: 40px; padding: 32px 0; text-align: center; }
+    .product-final-purchase .btn { min-width: 200px; }
+    .video-link h3 { font-size: 18px; font-weight: 500; margin: 8px 0 12px; overflow-wrap: anywhere; }
+    .video-action { font-size: 14px; color: var(--primary); }
+    .product-info-bar { flex-wrap: wrap; }
+    .rulebook { padding: 24px; margin-top: 32px; background: var(--light-bg); border-radius: 8px; }
+    .rulebook h2 { font-size: 24px; font-weight: 400; margin-bottom: 12px; }
+    .rulebook p { color: var(--text-secondary); margin-bottom: 20px; }
+    .prose :global(h2) { font-size: 24px; font-weight: 400; margin: 32px 0 16px; }
+    .prose :global(h3) { font-size: 18px; margin: 24px 0 12px; }
+    .prose :global(ol), .prose :global(ul) { padding-left: 24px; margin: 16px 0; }
+    .prose :global(li) { margin-bottom: 8px; }
+
+    .product-gallery { margin-top: 48px; }
+    .product-gallery h2 { font-size: 24px; font-weight: 400; margin-bottom: 24px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .gallery-grid img { display: block; width: 100%; height: auto; border-radius: 8px; }
+    .gallery-grid figcaption { font-size: 14px; margin-top: 8px; color: var(--text-secondary); }
+    .prose { line-height: 1.9; }
+    .prose :global(p) { margin-bottom: 16px; }
+    @media (max-width: 768px) {
+        .gallery-grid { grid-template-columns: 1fr; }
+        .product-hero-overlay { padding: 24px 20px 20px; }
+        .product-hero-overlay h1 { font-size: 24px; }
+        .product-info-bar { gap: 20px; }
+    }
+</style>

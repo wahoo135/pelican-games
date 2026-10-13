@@ -3,7 +3,7 @@ name: 情绪放映厅
 tagline: "一款让情绪被看见的聚会桌游"
 status: online
 tags: [聚会破冰, 情绪流, 猜心, 语言表达]
-image: /images/products/emotion-theater.jpg
+image: /images/products/emotion-theater-cover-v2.jpg
 gallery:
   - image: /images/products/emotion-theater-components.jpg
     caption: 版图、卡牌与游戏配件实拍
