@@ -6,7 +6,15 @@ const {title,description='鹈鹕游戏是一家独立游戏创作工作室。从
 const en=lang==='en';
 const route=Astro.url.pathname.replace(/^\/(zh|en)(?=\/)/,'').replace(/^\/products\//,'/games/');
 const routeKey=route==='/'?'':route.replace(/^\/|\/$/g,'');
-const canonical=new URL(`/${lang}/${routeKey}${routeKey?'/':''}`,Astro.site);
+const canonical=new URL(Astro.url.pathname.startsWith('/articles/')?Astro.url.pathname:`/${lang}/${routeKey}${routeKey?'/':''}`,Astro.site);
+const sectionNames:Record<string,string>={games:'游戏',studio:'工作室',journal:'创作日志',contact:'联系',articles:'创作日志'};
+const segments=routeKey.split('/').filter(Boolean);
+const breadcrumbItems=[{name:'鹈鹕游戏',item:new URL('/zh/',Astro.site).href}];
+if(segments.length){
+  const section=segments[0];
+  breadcrumbItems.push({name:sectionNames[section]||title.split(' — ')[0],item:new URL(section==='articles'?'/zh/journal/':`/zh/${section}/`,Astro.site).href});
+  if(segments.length>1)breadcrumbItems.push({name:title.split('官网')[0].split(' — ')[0],item:canonical.href});
+}
 const nav=[['','首页','Home'],['games/','游戏','Games'],['studio/','工作室','Studio'],['journal/','创作日志','Journal'],['contact/','联系','Contact']];
 const otherLanguage=`/${en?'zh':'en'}/${routeKey}${routeKey?'/':''}`;
 const shareImage=new URL(image||(routeKey.startsWith('games/')?'/images/products/emotion-theater-cover-v2.jpg':'/images/brand/pelican-logo.jpg'),Astro.site);
@@ -39,6 +47,15 @@ const shareImage=new URL(image||(routeKey.startsWith('games/')?'/images/products
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet" />
+
+    {!en&&<script type="application/ld+json" set:html={JSON.stringify({
+      "@context":"https://schema.org",
+      "@graph":[
+        {"@type":"WebSite","@id":"https://pelicangames.studio/#website","url":"https://pelicangames.studio/zh/","name":"鹈鹕游戏","alternateName":"Pelican Games","inLanguage":"zh-CN","publisher":{"@id":"https://pelicangames.studio/#organization"}},
+        {"@type":"WebPage","@id":`${canonical.href}#webpage`,"url":canonical.href,"name":title,"description":description,"inLanguage":"zh-CN","isPartOf":{"@id":"https://pelicangames.studio/#website"}},
+        ...(segments.length?[{"@type":"BreadcrumbList","itemListElement":breadcrumbItems.map((entry,index)=>({"@type":"ListItem","position":index+1,...entry}))}]:[])
+      ]
+    }).replace(/</g,'\\u003c')}/>}
 
     <!-- 组织信息 -->
     <script type="application/ld+json" set:html={JSON.stringify({
