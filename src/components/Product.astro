@@ -6,6 +6,7 @@ import { getCollection, render } from 'astro:content';
 const { product, lang='zh' } = Astro.props;
 const en=lang==='en';
 const base=`/${lang}`;
+const purchaseContact='mailto:747127623@qq.com?subject='+encodeURIComponent(`Purchase enquiry / 购买咨询：${product.data.name}`);
 const { Content } = await render(product);
 
 const statusLabels: Record<string, string> = {
@@ -54,6 +55,7 @@ const statusLabels: Record<string, string> = {
         <div class="product-actions-bar">
             {product.data.buyLink && (
             <a href={product.data.buyLink} class="btn btn-primary">{en?'Buy the Chinese edition':'立即购买'}</a>
+            <a href={purchaseContact} class="btn btn-secondary">{en?'Contact to purchase':'联系购买'}</a>
             )}
             {product.data.rulebook && <a href="#rulebook-title" class="btn btn-secondary">{en?'Rules':'玩法与规则'}</a>}
             {product.data.videos.length > 0 && <a href="#video-title" class="btn btn-secondary">{en?'Videos':'教学与试玩'}</a>}
@@ -63,6 +65,7 @@ const statusLabels: Record<string, string> = {
             <a href={`${base}/games/`} class="btn btn-secondary">{en?'Back to Games':'返回作品列表'}</a>
         </div>
 
+        {en&&<p class="age-note">Chinese-language edition · Price in CNY. For international orders, contact us to confirm availability, shipping and payment options.</p>}
         <section class="game-summary"><h2>{en?'How it plays':'怎么玩'}</h2><p>{en?'Take turns choosing how you would feel in a scenario. Everyone else guesses your changing feelings and shares their reasoning.':'每位玩家轮流成为被猜玩家，其他人猜测其在特定情境下的情绪变化，并分享判断的理由。'}</p><ol>{gameSteps[lang as 'zh'|'en'].map(step=><li>{step}</li>)}</ol><p>{en?'A brief overview; consult the original Chinese rulebook for full details.':'以上为玩法概要，完整细节以原版规则书为准。'}</p></section>
         {product.data.rulebook && (
         <section class="rulebook" aria-labelledby="rulebook-title">
@@ -108,6 +111,7 @@ const statusLabels: Record<string, string> = {
         {product.data.buyLink && (
         <div class="product-final-purchase">
             <a href={product.data.buyLink} class="btn btn-primary">{en?'Buy the Chinese edition':'立即购买'}</a>
+            <a href={purchaseContact} class="btn btn-secondary">{en?'Contact to purchase':'联系购买'}</a>
         </div>
         )}
 
