@@ -28,7 +28,11 @@ const shareImage=new URL(image||(routeKey.startsWith('games/')?'/images/products
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {en&&<meta name="robots" content="noindex, nofollow"/>}
+    {!Astro.url.pathname.startsWith('/articles/')&&!(routeKey.startsWith('journal/'))&&<>
+      <link rel="alternate" hreflang="zh-CN" href={new URL(`/zh/${routeKey}${routeKey?'/':''}`,Astro.site)} />
+      <link rel="alternate" hreflang="en" href={new URL(`/en/${routeKey}${routeKey?'/':''}`,Astro.site)} />
+      <link rel="alternate" hreflang="x-default" href={new URL(`/zh/${routeKey}${routeKey?'/':''}`,Astro.site)} />
+    </>}
     <meta name="author" content="鹈鹕游戏"/>
     <meta property="og:site_name" content="鹈鹕游戏 Pelican Games"/>
     <meta property="og:type" content="website"/>
@@ -81,12 +85,11 @@ const shareImage=new URL(image||(routeKey.startsWith('games/')?'/images/products
             </button>
             <ul class="nav-links" id="navLinks">
                 {nav.map(([path,zh,english])=><li><a href={`/${lang}/${path}`} aria-current={(path===''?routeKey==='':routeKey===path.slice(0,-1)||routeKey.startsWith(path))?'page':undefined}>{lang==='zh'?`${zh} ${english}`:english}</a></li>)}
-                <li><a class="language-switch" href={otherLanguage} aria-label={en?'Switch to Chinese':'查看英文审核草稿'}>{en?'中文':'EN · 草稿'}</a></li>
+                <li><a class="language-switch" href={otherLanguage} aria-label={en?'Switch to Chinese':'Switch to English'}>{en?'中文':'EN'}</a></li>
             </ul>
         </div>
     </nav>
 
-    {en&&<div class="translation-draft" role="note">English review draft — translations and the proposed tagline await approval. <a href={otherLanguage}>中文版</a></div>}
     <div id="main-content" tabindex="-1"><slot /></div>
 
     <!-- 页脚 -->
